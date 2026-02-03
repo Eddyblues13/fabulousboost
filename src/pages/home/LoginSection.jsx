@@ -4,19 +4,19 @@ import toast from 'react-hot-toast';
 import { Eye, EyeOff, User, Lock } from 'lucide-react';
 import axios from 'axios';
 import { loginSchema } from '../../utils/validation';
-import ReCAPTCHA from 'react-google-recaptcha';
+
 
 const LoginSection = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState(null);
 
   const navigate = useNavigate();
   const APP_URL = import.meta.env.VITE_APP_BASE_URL;
-  const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -26,18 +26,14 @@ const LoginSection = () => {
       await loginSchema.validate({ login, password }, { abortEarly: false });
 
       // 2️⃣ Check captcha
-      if (!captchaToken) {
-        toast.error("Please complete the reCAPTCHA verification.");
-        return;
-      }
+      // (Removed Recaptcha check)
 
       setIsLoading(true);
 
-      // 3️⃣ Send login + captcha token to Laravel backend
+      // 3️⃣ Send login to Laravel backend
       const response = await axios.post(`${APP_URL}/login`, {
         login: login.trim(),
         password,
-        "g-recaptcha-response": captchaToken,
       });
 
       localStorage.setItem('authToken', response.data.token);
@@ -117,14 +113,7 @@ const LoginSection = () => {
             </div>
           </div>
 
-          {/* ✅ ReCAPTCHA here */}
-          <div className="flex justify-center mt-4">
-            <ReCAPTCHA
-              sitekey={RECAPTCHA_SITE_KEY}
-              onChange={setCaptchaToken}
-              onExpired={() => setCaptchaToken(null)}
-            />
-          </div>
+
 
           {/* Remember Me + Forgot Password + Sign In */}
           <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-4 space-y-4 lg:space-y-0">

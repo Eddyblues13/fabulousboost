@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';   // ✅ Add this line
+
 import Button from "../../components/Button";
 import { signupSchema } from '../../utils/validation';
 
@@ -16,12 +16,12 @@ const SignUpPage = () => {
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [captchaToken, setCaptchaToken] = useState(null); // ✅ new state for captcha
+
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const APP_URL = import.meta.env.VITE_APP_BASE_URL;
-  const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY; // ✅ from .env
+
 
   const registerUser = async (e) => {
     e.preventDefault();
@@ -33,15 +33,11 @@ const SignUpPage = () => {
         { abortEarly: false }
       );
 
-      // ✅ Ensure reCAPTCHA completed
-      if (!captchaToken) {
-        toast.error("Please complete the reCAPTCHA before submitting.");
-        return;
-      }
+      // ✅ Ensure reCAPTCHA completed (Removed)
 
       setIsLoading(true);
 
-      // ✅ Send data + reCAPTCHA token to backend
+      // ✅ Send data to backend
       const response = await axios.post(`${APP_URL}/register`, {
         username: username.trim(),
         email: email.trim(),
@@ -49,7 +45,6 @@ const SignUpPage = () => {
         last_name: lastname.trim(),
         password,
         password_confirmation: confirmPassword,
-        token: captchaToken, // ✅ send captcha token to Laravel
       });
 
       localStorage.setItem('authToken', response.data.token);
@@ -206,22 +201,15 @@ const SignUpPage = () => {
             </div>
           </div>
 
-          {/* ✅ reCAPTCHA */}
-          <div className="flex justify-center mt-4">
-            <ReCAPTCHA
-              sitekey={RECAPTCHA_SITE_KEY}
-              onChange={(token) => setCaptchaToken(token)}
-              onExpired={() => setCaptchaToken(null)}
-            />
-          </div>
+
 
           {/* Sign Up Button */}
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             disabled={isLoading}
             className={`w-full ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
           >
-            { isLoading ? (
+            {isLoading ? (
               <div className="flex items-center justify-center">
                 <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -229,7 +217,7 @@ const SignUpPage = () => {
                 </svg>
                 Creating account...
               </div>
-            ) : "Sign Up" }
+            ) : "Sign Up"}
           </Button>
 
           {/* Sign In Link */}
