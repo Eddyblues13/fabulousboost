@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Particles from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
-import { Sparkles, Rocket, TrendingUp, ArrowRight, Zap } from 'lucide-react';
+import { Sparkles, Rocket, TrendingUp, ArrowRight, Zap, LogIn } from 'lucide-react';
 import LoginSection from "./LoginSection";
 import StatsDashboard from '../sections/Statistics';
 import Why from '../sections/why';
@@ -29,48 +29,48 @@ const HomePage = () => {
     fpsLimit: 120,
     particles: {
       number: {
-        value: 150,
+        value: 100,
         density: {
           enable: true,
-          area: 800
+          area: 900
         }
       },
       color: {
-        value: ["#a855f7", "#c084fc", "#d946ef", "#ec4899", "#f472b6", "#f9a8d4"]
+        value: ["#7c3aed", "#a855f7", "#c084fc", "#d946ef", "#ec4899"]
       },
       shape: {
         type: "circle"
       },
       opacity: {
-        value: { min: 0.5, max: 1 },
+        value: { min: 0.15, max: 0.45 },
         random: true,
         animation: {
           enable: true,
-          speed: 1,
-          minimumValue: 0.5,
+          speed: 0.8,
+          minimumValue: 0.15,
           sync: false
         }
       },
       size: {
-        value: { min: 2, max: 5 },
+        value: { min: 1, max: 4 },
         random: true,
         animation: {
           enable: true,
-          speed: 3,
+          speed: 2,
           minimumValue: 1,
           sync: false
         }
       },
       links: {
         enable: true,
-        distance: 150,
-        color: "#c084fc",
-        opacity: 0.6,
-        width: 1.5
+        distance: 130,
+        color: "#c4b5fd",
+        opacity: 0.25,
+        width: 1
       },
       move: {
         enable: true,
-        speed: 1,
+        speed: 0.8,
         direction: "none",
         random: false,
         straight: false,
@@ -97,18 +97,13 @@ const HomePage = () => {
       },
       modes: {
         grab: {
-          distance: 250,
+          distance: 200,
           links: {
-            opacity: 1,
-            blink: false,
-            consent: false,
-            triangles: {
-              enable: false
-            }
+            opacity: 0.8
           }
         },
         push: {
-          quantity: 6
+          quantity: 4
         },
         repulse: {
           distance: 200,
@@ -185,9 +180,17 @@ const HomePage = () => {
     }
   };
 
+  const scrollToLogin = () => {
+    const loginSection = document.getElementById("login-section");
+    if (loginSection) {
+      loginSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <>
-    <section className="relative min-h-screen pt-20 sm:pt-24 md:pt-28 lg:pt-32 overflow-hidden flex items-center justify-center py-12 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="bg-gradient-to-b from-[#faf5ff] to-white">
+    {/* ============ HERO SECTION ============ */}
+    <section className="relative min-h-screen pt-20 sm:pt-24 md:pt-28 lg:pt-32 overflow-hidden flex items-center justify-center py-12 bg-white">
       {/* Particles Background */}
       <div 
         id="particles-container"
@@ -216,30 +219,60 @@ const HomePage = () => {
         />
       </div>
 
-      {/* Enhanced Animated Background Gradients */}
+      {/* Scattered Color Blobs */}
       <div className="absolute inset-0 z-0 overflow-hidden" style={{ zIndex: 0 }}>
+        {/* Top-left purple blob */}
         <motion.div 
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-gradient-to-r from-purple-500/30 to-pink-500/20 rounded-full blur-3xl"
+          className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-purple-300/30 rounded-full blur-3xl"
           variants={pulseVariants}
           animate="animate"
         />
+        {/* Top-right pink blob */}
         <motion.div 
-          className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-violet-500/25 to-purple-500/15 rounded-full blur-3xl"
+          className="absolute -top-10 right-0 w-[350px] h-[350px] bg-pink-300/25 rounded-full blur-3xl"
+          variants={floatVariants}
+          animate="animate"
+        />
+        {/* Center-left violet */}
+        <motion.div 
+          className="absolute top-1/3 -left-10 w-[300px] h-[300px] bg-violet-400/20 rounded-full blur-3xl"
           variants={floatVariants}
           animate="animate"
           transition={{ delay: 0.5, duration: 5 }}
         />
+        {/* Center-right fuchsia */}
         <motion.div 
-          className="absolute bottom-1/4 left-1/3 w-[450px] h-[450px] bg-gradient-to-r from-fuchsia-500/25 to-pink-600/20 rounded-full blur-3xl"
+          className="absolute top-1/2 right-10 w-[350px] h-[350px] bg-fuchsia-300/20 rounded-full blur-3xl"
           variants={pulseVariants}
           animate="animate"
           transition={{ delay: 1, duration: 6 }}
         />
+        {/* Bottom-left pink */}
         <motion.div 
-          className="absolute bottom-1/3 right-1/2 w-[550px] h-[550px] bg-gradient-to-r from-pink-500/20 to-purple-500/15 rounded-full blur-3xl"
+          className="absolute bottom-10 left-1/4 w-[300px] h-[300px] bg-pink-200/30 rounded-full blur-3xl"
+          variants={pulseVariants}
+          animate="animate"
+          transition={{ delay: 0.8, duration: 5.5 }}
+        />
+        {/* Bottom-right purple */}
+        <motion.div 
+          className="absolute -bottom-20 right-1/4 w-[400px] h-[400px] bg-purple-200/25 rounded-full blur-3xl"
           variants={floatVariants}
           animate="animate"
-          transition={{ delay: 1.5, duration: 4.5 }}
+          transition={{ delay: 1.2, duration: 6 }}
+        />
+        {/* Small accent blobs */}
+        <motion.div 
+          className="absolute top-1/4 left-1/2 w-[150px] h-[150px] bg-indigo-300/20 rounded-full blur-2xl"
+          variants={floatVariants}
+          animate="animate"
+          transition={{ delay: 0.3, duration: 4 }}
+        />
+        <motion.div 
+          className="absolute bottom-1/3 right-1/3 w-[180px] h-[180px] bg-rose-300/15 rounded-full blur-2xl"
+          variants={pulseVariants}
+          animate="animate"
+          transition={{ delay: 1.5, duration: 7 }}
         />
       </div>
 
@@ -258,45 +291,36 @@ const HomePage = () => {
         >
           {/* Badge */}
           <motion.div 
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-500/20 backdrop-blur-md border border-purple-400/30 mb-8 shadow-lg"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-100 border border-purple-200 mb-8 shadow-sm"
             initial={{ opacity: 0, scale: 0.8, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
           >
             <motion.div
-              animate={{ 
-                rotate: [0, 360],
-              }}
-              transition={{ 
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear"
-              }}
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
             >
-              <Zap className="text-purple-400 w-5 h-5" />
+              <Zap className="text-purple-600 w-5 h-5" />
             </motion.div>
-            <span className="text-purple-200 font-semibold text-sm tracking-wide">Premium SMM Platform</span>
-            <Sparkles className="text-purple-400 w-4 h-4" />
+            <span className="text-purple-700 font-semibold text-sm tracking-wide">Premium SMM Platform</span>
+            <Sparkles className="text-pink-500 w-4 h-4" />
           </motion.div>
 
           {/* Main Heading */}
-          <motion.div 
-            className="mb-6"
-            variants={itemVariants}
-          >
+          <motion.div className="mb-6" variants={itemVariants}>
             <motion.h1 
               className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.1] mb-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="block bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent drop-shadow-2xl">
+              <span className="block bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 bg-clip-text text-transparent drop-shadow-2xl">
                 Boost Your
               </span>
-              <span className="block bg-gradient-to-r from-purple-400 via-pink-300 to-purple-400 bg-clip-text text-transparent animate-gradient mt-2">
+              <span className="block bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-gradient mt-2">
                 Social Media
               </span>
-              <span className="block bg-gradient-to-r from-pink-300 via-purple-200 to-pink-300 bg-clip-text text-transparent mt-2">
+              <span className="block bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mt-2">
                 Presence
               </span>
             </motion.h1>
@@ -304,10 +328,10 @@ const HomePage = () => {
 
           {/* Description */}
           <motion.p 
-            className="text-xl md:text-2xl text-gray-300 font-medium mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+            className="text-lg md:text-xl text-gray-600 font-medium mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
             variants={itemVariants}
           >
-            Grow your social media fast with <span className="font-bold text-white">premium quality services</span>. <span className="text-purple-400 font-semibold">Fabulousboost.com</span> offers top-tier solutions for YouTube, Instagram, TikTok, Facebook, Twitter, and more.
+            Grow your social media fast with <span className="font-bold text-purple-900">premium quality services</span>. <span className="text-purple-600 font-semibold">Fabulousboost.com</span> offers top-tier solutions for YouTube, Instagram, TikTok, Facebook, Twitter, and more.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -316,134 +340,88 @@ const HomePage = () => {
             variants={itemVariants}
           >
             <motion.button 
-              className="group relative px-10 py-5 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-500 text-white font-bold text-lg rounded-2xl shadow-2xl flex items-center justify-center overflow-hidden border border-purple-400/50"
+              onClick={scrollToLogin}
+              className="group relative px-10 py-5 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-500 text-white font-bold text-lg rounded-2xl shadow-2xl shadow-purple-500/25 flex items-center justify-center overflow-hidden border border-purple-400/40"
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 30px 60px rgba(168, 85, 247, 0.5)"
+                boxShadow: "0 30px 60px rgba(168, 85, 247, 0.3)"
               }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <span className="absolute inset-0 bg-gradient-to-r from-purple-700 via-pink-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              <motion.div
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-              >
-                <Rocket className="w-6 h-6 mr-3 relative z-10" />
-              </motion.div>
-              <span className="relative z-10">Explore Services</span>
+              <LogIn className="w-6 h-6 mr-3 relative z-10" />
+              <span className="relative z-10">Sign In Now</span>
               <ArrowRight className="w-5 h-5 ml-3 relative z-10 group-hover:translate-x-2 transition-transform duration-300" />
             </motion.button>
 
             <motion.button 
-              className="px-10 py-5 bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold text-lg rounded-2xl shadow-xl flex items-center justify-center hover:bg-white/20 transition-all duration-300"
-              whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.5)" }}
+              className="px-10 py-5 bg-white border-2 border-purple-200 text-purple-700 font-bold text-lg rounded-2xl shadow-lg flex items-center justify-center hover:bg-purple-50 hover:border-purple-300 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
-              <TrendingUp className="w-6 h-6 mr-3" />
-              Learn More
+              <Rocket className="w-6 h-6 mr-3" />
+              Explore Services
             </motion.button>
           </motion.div>
 
           {/* Stats Preview */}
           <motion.div 
-            className="mt-12 flex flex-wrap gap-6 justify-center lg:justify-start"
+            className="mt-12 flex flex-wrap gap-8 justify-center lg:justify-start"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.6 }}
           >
-            <div className="text-center lg:text-left">
-              <div className="text-3xl font-black text-white mb-1">50K+</div>
-              <div className="text-sm text-gray-400">Active Users</div>
-            </div>
-            <div className="text-center lg:text-left">
-              <div className="text-3xl font-black text-white mb-1">1M+</div>
-              <div className="text-sm text-gray-400">Orders Completed</div>
-            </div>
-            <div className="text-center lg:text-left">
-              <div className="text-3xl font-black text-white mb-1">99%</div>
-              <div className="text-sm text-gray-400">Satisfaction Rate</div>
-            </div>
+            {[
+              { value: "50K+", label: "Active Users" },
+              { value: "1M+", label: "Orders Completed" },
+              { value: "99%", label: "Satisfaction Rate" },
+            ].map((stat, i) => (
+              <div key={i} className="text-center lg:text-left">
+                <div className="text-3xl font-black text-purple-900 mb-1">{stat.value}</div>
+                <div className="text-sm text-gray-500">{stat.label}</div>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
 
-        {/* Right Section: Illustration Image */}
+        {/* Right Section: Login Form - prominent on desktop */}
         <motion.div 
-          className="relative flex justify-center items-center p-8 lg:p-12"
+          className="hidden lg:flex relative justify-center items-center"
           variants={imageVariants}
         >
-          <motion.div
-            className="relative"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.4 }}
-          >
-            {/* Enhanced Glow Effects */}
-            <motion.div
-              className="absolute -inset-8 bg-gradient-to-r from-purple-500/40 via-pink-500/30 to-purple-500/40 rounded-3xl blur-3xl"
-              animate={{
-                opacity: [0.3, 0.5, 0.3],
-                scale: [1, 1.15, 1]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            
-            {/* Image Container with Glassmorphism */}
-            <motion.div
-              className="relative rounded-3xl p-2 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl"
-            >
-              <motion.img
-                src="/social-home.svg"
-                alt="Social Media Growth Illustration"
-                className="relative max-w-full h-auto rounded-2xl"
-                whileHover={{ 
-                  scale: 1.02,
-                }}
-                transition={{ 
-                  scale: { duration: 0.3 }
-                }}
-              />
-            </motion.div>
-            
-            {/* Enhanced Floating Decorative Elements */}
-            <motion.div
-              className="absolute -top-8 -right-8 w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full blur-2xl opacity-70"
-              animate={{
-                y: [0, -20, 0],
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <motion.div
-              className="absolute -bottom-8 -left-8 w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full blur-2xl opacity-70"
-              animate={{
-                y: [0, 20, 0],
-                scale: [1, 1.2, 1],
-                rotate: [360, 180, 0]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2
-              }}
-            />
-          </motion.div>
+          <LoginSection variant="hero" />
         </motion.div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 lg:hidden"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-purple-500 text-xs font-medium tracking-wider uppercase">Sign In Below</span>
+          <div className="w-6 h-10 border-2 border-purple-300 rounded-full flex justify-center pt-2">
+            <motion.div 
+              className="w-1.5 h-1.5 bg-purple-500 rounded-full"
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+          </div>
+        </div>
       </motion.div>
     </section>
 
-    {/* Sections */}
-    <LoginSection /> 
-    <StatsDashboard /> 
+    {/* ============ MOBILE LOGIN SECTION ============ */}
+    <div className="lg:hidden">
+      <LoginSection variant="standalone" />
+    </div>
+
+    {/* ============ STATS ============ */}
+    <StatsDashboard />
+
+    {/* ============ CONTENT SECTIONS ============ */}
     <Why />
     <HomeFeatures/> 
     <RiseSocial/>
@@ -454,7 +432,7 @@ const HomePage = () => {
     <FaqSection/>
     <TestimonialsSection/>
     <GetStarted/>
-    </> 
+    </div> 
   );
 };
 

@@ -43,20 +43,20 @@ const StatsDashboard = () => {
   ];
 
   return (
-    <div className="px-4 sm:px-6 pb-8 mt-10">
+    <div className="px-4 sm:px-6 py-12 relative z-10">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              className="flex items-center p-4 bg-white rounded-xl shadow-sm w-full space-x-4"
+              className="flex items-center p-5 bg-white rounded-2xl border border-purple-100 shadow-sm w-full space-x-4 hover:shadow-md hover:border-purple-200 transition-all duration-300"
             >
-              <div className="bg-purple-900 rounded-full p-3 sm:p-4">
+              <div className="bg-gradient-to-br from-purple-600 to-pink-500 rounded-xl p-3 sm:p-4 shadow-lg shadow-purple-500/20">
                 {stat.icon}
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-bold text-purple-900">{stat.value}</div>
-                <div className="text-sm sm:text-base text-gray-600 font-medium">{stat.label}</div>
+                <div className="text-sm sm:text-base text-gray-500 font-medium">{stat.label}</div>
               </div>
             </div>
           ))}

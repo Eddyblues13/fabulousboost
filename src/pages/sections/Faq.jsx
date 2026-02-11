@@ -41,7 +41,7 @@ const FaqSection = () => {
   };
 
   return (
-    <section className="bg-[#faf5ff] py-20 px-4 sm:px-6 lg:px-12">
+    <section className="py-20 px-4 sm:px-6 lg:px-12 bg-gradient-to-b from-[#faf5ff] to-white">
       <div className="max-w-6xl mx-auto">
         <h4 className="text-3xl font-bold text-center text-purple-900 mb-10">
           Frequently Asked Questions
@@ -50,15 +50,15 @@ const FaqSection = () => {
           {faqData.map((item, index) => (
             <div
               key={index}
-              className="bg-white border border-purple-100 rounded-lg shadow-sm hover:shadow-md transition duration-300"
+              className="bg-white border border-purple-100 rounded-2xl shadow-sm hover:shadow-md transition duration-300"
             >
               <button
                 onClick={() => toggle(index)}
                 className="w-full text-left px-6 py-4 flex justify-between items-center focus:outline-none"
               >
-                <span className="text-purple-900 font-semibold">{item.question}</span>
+                <span className="text-gray-800 font-semibold">{item.question}</span>
                 <svg
-                  className={`w-5 h-5 text-purple-900 transition-transform duration-300 ${
+                  className={`w-5 h-5 text-purple-600 transition-transform duration-300 ${
                     activeIndex === index ? 'rotate-180' : ''
                   }`}
                   fill="none"
@@ -69,8 +69,8 @@ const FaqSection = () => {
                 </svg>
               </button>
               {activeIndex === index && (
-                <div className="px-6 pb-4 text-gray-700 text-sm">
-                  <span className="font-bold text-purple-900">Ans:</span> {item.answer}
+                <div className="px-6 pb-4 text-gray-600 text-sm">
+                  <span className="font-bold text-purple-600">Ans:</span> {item.answer}
                 </div>
               )}
             </div>

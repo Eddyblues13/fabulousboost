@@ -27,15 +27,15 @@ const HowItWorks = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section className="bg-white py-20 px-4 sm:px-6 lg:px-12">
+    <section className="py-20 px-4 sm:px-6 lg:px-12 bg-white">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
         {/* Left: Image + Intro */}
         <div>
           <h3 className="text-3xl font-bold text-purple-900 mb-4">How it works?</h3>
-          <p className="text-gray-700 mb-6">
+          <p className="text-gray-600 mb-6">
             Check out the step-by-step tutorial on how to get started on our SMM panel.
           </p>
-          <div className="relative w-full max-w-md rounded-lg overflow-hidden shadow-lg">
+          <div className="relative w-full max-w-md rounded-2xl overflow-hidden shadow-lg">
             <img
               src="https://i.23robo.info/projects/smexploits/img/how-work-img.webp"
               alt="How it works"
@@ -46,7 +46,7 @@ const HowItWorks = () => {
               className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/60 transition duration-300"
             >
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition transform">
-                <svg className="w-6 h-6 text-purple-900" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
@@ -59,15 +59,15 @@ const HowItWorks = () => {
           {steps.map((step) => (
             <div
               key={step.number}
-              className="bg-[#faf5ff] border border-purple-100 rounded-2xl p-6 shadow hover:shadow-md hover:scale-[1.02] transition duration-300"
+              className="bg-white border border-purple-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:scale-[1.02] transition duration-300"
             >
               <div className="flex items-center space-x-4 mb-4">
-                <div className="bg-purple-900 text-white w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold">
+                <div className="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold shadow-lg shadow-purple-500/20">
                   {step.number}
                 </div>
                 <h5 className="text-lg font-semibold text-purple-900">{step.title}</h5>
               </div>
-              <p className="text-gray-600 text-sm">{step.desc}</p>
+              <p className="text-gray-500 text-sm">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -76,7 +76,7 @@ const HowItWorks = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-lg overflow-hidden w-full max-w-3xl shadow-xl">
+          <div className="bg-white rounded-2xl overflow-hidden w-full max-w-3xl shadow-xl border border-purple-100">
             <div className="relative pt-[56.25%]">
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
@@ -90,7 +90,7 @@ const HowItWorks = () => {
             <div className="text-right p-4">
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-purple-900 text-white px-4 py-2 rounded hover:bg-purple-950 transition"
+                className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-4 py-2 rounded-xl hover:from-purple-500 hover:to-pink-400 transition"
               >
                 Close
               </button>

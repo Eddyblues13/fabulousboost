@@ -49,11 +49,11 @@ const SmmServicesInsight = () => {
   const [activeTab, setActiveTab] = useState('instagram');
 
   return (
-    <section className="bg-[#faf5ff] py-16 px-4">
+    <section className="py-20 px-4 bg-gradient-to-b from-[#faf5ff] to-white">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-10">
           <h3 className="text-3xl font-bold text-purple-900 mb-4">SMM Services Insight.</h3>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-500 max-w-2xl mx-auto">
             Our wide range of SMM services covers all major social networks such as Soundcloud, Twitter,
             Spotify, YouTube, LinkedIn, and Telegram. Here's what you can expect:
           </p>
@@ -65,10 +65,10 @@ const SmmServicesInsight = () => {
             <button
               key={platform.id}
               onClick={() => setActiveTab(platform.id)}
-              className={`flex flex-col items-center px-4 py-2 rounded-lg transition duration-200 ${
+              className={`flex flex-col items-center px-4 py-2 rounded-xl transition duration-200 ${
                 activeTab === platform.id
-                  ? 'bg-purple-900 text-white'
-                  : 'bg-white text-purple-900 border border-purple-200'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/20'
+                  : 'bg-white text-purple-800 border border-purple-100 hover:border-purple-200 hover:shadow-sm'
               }`}
             >
               <img src={platform.img} alt={platform.name} className="w-8 h-8 mb-1" />
@@ -86,13 +86,13 @@ const SmmServicesInsight = () => {
                   <h5 className="text-xl font-bold text-purple-900 mb-4">
                     {platform.name} Services
                   </h5>
-                  <p className="text-gray-700">{platform.desc}</p>
+                  <p className="text-gray-600">{platform.desc}</p>
                 </div>
                 <div>
                   <img
                     src={platform.contentImg}
                     alt={platform.name}
-                    className="rounded-lg w-full max-w-md mx-auto"
+                    className="rounded-2xl w-full max-w-md mx-auto shadow-lg"
                   />
                 </div>
               </div>

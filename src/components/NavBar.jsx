@@ -4,7 +4,6 @@ import { IoMenu, IoClose } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navLinks = [
-  { name: "Sign In", path: "/signin" },
   { name: "API", path: "/api" },
   { name: "Services", path: "/services" },
 ];
@@ -13,6 +12,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,6 +32,7 @@ const Navbar = () => {
         setShowNavbar(true);
       }
 
+      setScrolled(currentScrollY > 50);
       setLastScrollY(currentScrollY);
 
       clearTimeout(timeoutId);
@@ -68,70 +69,61 @@ const Navbar = () => {
   
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transform transition-transform duration-300 ${
-        isHomePage 
-          ? "bg-transparent backdrop-blur-sm" 
-          : "bg-[#faf5ff]/90 backdrop-blur-md"
+      className={`fixed top-0 left-0 w-full z-50 transform transition-all duration-300 ${
+        scrolled 
+          ? "bg-white/90 backdrop-blur-xl border-b border-purple-100 shadow-sm" 
+          : isHomePage 
+            ? "bg-transparent" 
+            : "bg-white/95 backdrop-blur-md border-b border-purple-50"
       } ${
         showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-
-        {/* TODO: Add Logo */}
-
-{/* <Link to="/" className="flex items-center">
-  <img
-    src="/logo.png"
-    alt="Fabulousboost Logo"
-    className="h-50 w-auto object-contain"
-  />
-</Link> */}
+        <Link to="/" className="flex items-center gap-2">
+          <div className="w-9 h-9 bg-gradient-to-br from-purple-600 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
+            <span className="text-white font-black text-lg">F</span>
+          </div>
+          <span className={`font-bold text-xl hidden sm:block text-gray-800`}>
+            Fabulous<span className="text-purple-600">boost</span>
+          </span>
+        </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6 ml-auto">
-          {navLinks.map(({ name, path }) => {
-            if (name === "Sign In") {
-              return (
-                <a
-                  key={name}
-                  href="#login-section"
-                  onClick={handleSignInClick}
-                  className={`text-lg font-medium transition-colors duration-200 cursor-pointer ${
-                    isHomePage ? "text-white hover:text-purple-200" : "text-gray-700 hover:text-purple-900"
-                  }`}
-                >
-                  {name}
-                </a>
-              );
-            }
-            return (
-              <Link
-                key={name}
-                to={path}
-                className={`text-lg font-medium transition-colors duration-200 ${
-                  isHomePage ? "text-white hover:text-purple-200" : "text-gray-700 hover:text-purple-900"
-                }`}
-              >
-                {name}
-              </Link>
-            );
-          })}
+        <div className="hidden md:flex items-center space-x-2 ml-auto">
+          {navLinks.map(({ name, path }) => (
+            <Link
+              key={name}
+              to={path}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-gray-600 hover:text-purple-700 hover:bg-purple-50`}
+            >
+              {name}
+            </Link>
+          ))}
+          
+          {/* Sign In - Prominent */}
+          <a
+            href="#login-section"
+            onClick={handleSignInClick}
+            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ml-2 text-purple-700 bg-purple-50 border border-purple-200 hover:bg-purple-100`}
+          >
+            Sign In
+          </a>
+
+          {/* Sign Up - Most Prominent */}
           <Link
             to="/signup"
-            className="ml-4 bg-purple-900 text-white px-4 py-2 rounded-lg hover:bg-purple-950 transition duration-300 font-semibold text-sm"
+            className="ml-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg shadow-purple-500/20"
           >
-            Sign Up
+            Sign Up Free
           </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
         <button
           onClick={toggleMenu}
-          className={`md:hidden text-3xl focus:outline-none ${
-            isHomePage ? "text-white" : "text-gray-800"
-          }`}
+          className={`md:hidden text-3xl focus:outline-none text-gray-800`}
           aria-label="Toggle mobile menu"
         >
           {isOpen ? <IoClose /> : <IoMenu />}
@@ -146,47 +138,38 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className={`md:hidden px-6 py-6 space-y-4 shadow-lg ${
-              isHomePage ? "bg-transparent backdrop-blur-sm" : "bg-[#faf5ff]"
-            }`}
+            className="md:hidden px-6 py-6 space-y-2 bg-white/95 backdrop-blur-xl border-t border-purple-100 shadow-lg"
           >
+            {/* Sign In - Top of mobile menu, prominent */}
+            <a
+              href="#login-section"
+              onClick={handleSignInClick}
+              className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-purple-500/20 mb-2"
+            >
+              Sign In to Dashboard
+            </a>
+
             {[
-              { name: "Sign In", path: "#login-section" },
               { name: "API", path: "/api" },
               { name: "Services", path: "/services" },
-              { name: "Sign Up", path: "/signup" },
-            ].map(({ name, path }) => {
-              if (name === "Sign In") {
-                return (
-                  <a
-                    key={name}
-                    href={path}
-                    onClick={handleSignInClick}
-                    className={`block text-base font-medium transition-colors duration-200 ${
-                      isHomePage ? "text-white hover:text-purple-200" : "text-gray-800 hover:text-purple-900"
-                    }`}
-                  >
-                    {name}
-                  </a>
-                );
-              }
-              return (
-                <Link
-                  key={name}
-                  to={path}
-                  onClick={closeMenu}
-                  className={`block text-base font-medium transition duration-200 ${
-                    name === "Sign Up"
-                      ? "bg-purple-900 text-white px-4 py-2 rounded-lg hover:bg-purple-950"
-                      : isHomePage 
-                        ? "text-white hover:text-purple-200" 
-                        : "text-gray-800 hover:text-purple-900"
-                  }`}
-                >
-                  {name}
-                </Link>
-              );
-            })}
+            ].map(({ name, path }) => (
+              <Link
+                key={name}
+                to={path}
+                onClick={closeMenu}
+                className="block text-gray-700 hover:text-purple-700 py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 hover:bg-purple-50"
+              >
+                {name}
+              </Link>
+            ))}
+
+            <Link
+              to="/signup"
+              onClick={closeMenu}
+              className="block text-center text-purple-700 bg-purple-50 border border-purple-200 hover:bg-purple-100 font-semibold py-3 px-4 rounded-xl transition-all duration-200 mt-2"
+            >
+              Create Account
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>

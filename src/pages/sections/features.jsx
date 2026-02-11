@@ -71,7 +71,7 @@ const FeaturesSection = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#faf5ff] to-white text-center px-4 py-16">
+    <div className="text-center px-4 py-20 bg-gradient-to-b from-[#faf5ff] to-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-purple-900 mb-12">
           With Our Features You Can Get:
@@ -87,16 +87,16 @@ const FeaturesSection = () => {
             >
               {features.map((feature, index) => (
                 <div key={index} className="w-full flex-shrink-0 px-4">
-                  <div className="bg-white rounded-3xl p-6 shadow-lg max-w-sm mx-auto">
+                  <div className="bg-white rounded-3xl p-6 border border-purple-100 shadow-sm max-w-sm mx-auto hover:shadow-md transition-shadow duration-300">
                     <div className="mb-6">
-                      <div className="w-16 h-16 mx-auto bg-purple-900 rounded-full flex items-center justify-center mb-4">
+                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-600 to-pink-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-purple-500/20">
                         {renderIcon(feature.icon)}
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-purple-900 mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed text-sm">
+                    <p className="text-gray-500 leading-relaxed text-sm">
                       {feature.description}
                     </p>
                   </div>
@@ -119,16 +119,16 @@ const FeaturesSection = () => {
                       const featureIndex = (index + offset) % features.length;
                       const currentFeature = features[featureIndex];
                       return (
-                        <div key={featureIndex} className="bg-white rounded-3xl p-8 shadow-lg">
+                        <div key={featureIndex} className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm hover:shadow-md transition-shadow duration-300">
                           <div className="mb-6">
-                            <div className="w-20 h-20 mx-auto bg-purple-900 rounded-full flex items-center justify-center mb-4">
+                            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-purple-600 to-pink-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-purple-500/20">
                               {renderIcon(currentFeature.icon)}
                             </div>
                           </div>
                           <h3 className="text-2xl font-bold text-purple-900 mb-4">
                             {currentFeature.title}
                           </h3>
-                          <p className="text-gray-600 leading-relaxed">
+                          <p className="text-gray-500 leading-relaxed">
                             {currentFeature.description}
                           </p>
                         </div>
@@ -148,7 +148,7 @@ const FeaturesSection = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                index === currentSlide ? 'bg-purple-900' : 'bg-gray-300 hover:bg-gray-400'
+                index === currentSlide ? 'bg-purple-600' : 'bg-purple-200 hover:bg-purple-300'
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />

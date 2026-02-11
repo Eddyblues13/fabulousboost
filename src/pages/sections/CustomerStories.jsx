@@ -155,26 +155,26 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="bg-[#faf5ff] py-20 px-4">
+    <section className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto text-center">
         <h3 className="text-3xl font-bold text-purple-900 mb-2">Our Clients Love Us.</h3>
-        <p className="text-gray-500 text-lg mb-10">Testimonials</p>
+        <p className="text-gray-400 text-lg mb-10">Testimonials</p>
         <Slider {...settings}>
           {testimonials.map((testimonial, index) => (
             <div key={index} className="p-4" tabIndex={-1}>
-              <div className="bg-white rounded-xl shadow hover:shadow-md transition duration-300 p-6 text-left h-full flex flex-col justify-between">
+              <div className="bg-white rounded-2xl border border-purple-100 shadow-sm p-6 text-left h-full flex flex-col justify-between hover:shadow-md transition duration-300">
                 <div className="flex items-center mb-4 gap-4">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-14 h-14 rounded-full object-cover"
+                    className="w-14 h-14 rounded-full object-cover border-2 border-purple-200"
                   />
                   <div>
                     <h5 className="font-semibold text-purple-900 text-md">{testimonial.name}</h5>
-                    <p className="text-sm text-gray-500">{testimonial.role}</p>
+                    <p className="text-sm text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
-                <p className="text-gray-700 text-sm mb-4">{testimonial.text}</p>
+                <p className="text-gray-600 text-sm mb-4">{testimonial.text}</p>
                 <div className="flex gap-1">
                   {Array(5)
                     .fill(0)
