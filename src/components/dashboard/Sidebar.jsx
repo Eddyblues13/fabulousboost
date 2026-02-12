@@ -44,14 +44,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, user }) => {
 
   return (
     <>
-      {/* Backdrop for mobile */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
       <aside
         className={`
           fixed inset-y-0 left-0 z-40 w-64 sm:w-72 lg:w-64
@@ -71,7 +63,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, user }) => {
               <span className="font-bold text-white text-base sm:text-lg truncate">fabulousboost.com</span>
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className={`p-1 rounded-lg transition-colors flex-shrink-0 ${THEME_COLORS.hover.primary100}`}
+                className="p-1.5 rounded-lg transition-colors flex-shrink-0 hover:bg-white/15"
               >
                 <Menu className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </button>

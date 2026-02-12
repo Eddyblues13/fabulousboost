@@ -90,8 +90,7 @@ const DashboardLayout = () => {
 
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 lg:hidden transition-opacity duration-300"
-          style={{ backgroundColor: "rgba(168, 85, 247, 0.4)", backdropFilter: "blur(8px)" }}
+          className="fixed inset-0 z-30 bg-black/30 lg:hidden transition-opacity duration-300"
           onClick={() => setSidebarOpen(false)}
         />
       )}

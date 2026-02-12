@@ -3,7 +3,28 @@ import NotificationButton from "./NotificationButton"
 import { useState, useRef, useEffect } from "react"
 import { Bell, LogOut, Globe, ChevronDown, Settings, Menu, Shield } from "lucide-react"
 import { CSS_COLORS } from "../constant/colors"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
+
+// Map routes to page titles
+const pageTitles = {
+  "/dashboard": "New Order",
+  "/dashboard/add-funds": "Add Funds",
+  "/dashboard/orders": "Order History",
+  "/dashboard/support": "Customer Support",
+  "/dashboard/services": "Services",
+  "/dashboard/affiliate": "Make Money",
+  "/dashboard/child-panel": "Child Panel",
+  "/dashboard/api": "API",
+  "/dashboard/notifications": "Notifications",
+  "/dashboard/updates": "Updates",
+  "/dashboard/tutorials": "Tutorials",
+  "/dashboard/account": "Account",
+  "/dashboard/mass-order": "Mass Order",
+}
+
+const getPageTitle = (pathname) => {
+  return pageTitles[pathname] || "Dashboard"
+}
 
 const Header = ({
   sidebarOpen,
@@ -17,6 +38,8 @@ const Header = ({
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false)
   const currencyRef = useRef(null)
   const navigate = useNavigate()
+  const location = useLocation()
+  const currentPageTitle = getPageTitle(location.pathname)
   const isAdminImpersonating = localStorage.getItem('isAdminImpersonating') === 'true'
 
   // Handle return to admin
@@ -56,33 +79,25 @@ const Header = ({
 
   return (
     <header className="bg-white/90 backdrop-blur-xl border-b border-purple-100 sticky top-0 z-30 mx-2 sm:mx-4 mt-2 sm:mt-4 rounded-xl sm:rounded-2xl shadow-sm shadow-purple-100/30">
-      <div className="flex items-center justify-between px-4 py-3 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
+      <div className="flex items-center justify-between px-3 py-2.5 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
         {/* Left side */}
-        <div className="flex items-center space-x-3">
-          {/* Hamburger Menu - Mobile only */}
+        <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+          {/* Hamburger Menu */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="block lg:hidden p-2.5 rounded-xl hover:bg-purple-50 transition-all duration-200 hover:scale-105"
+            className="p-2 sm:p-2.5 rounded-xl hover:bg-purple-50 transition-all duration-200 flex-shrink-0"
           >
             <Menu className="w-5 h-5 text-purple-600" />
           </button>
 
-          {/* Page Title - Desktop */}
-          <div className="hidden lg:flex items-center space-x-3">
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2.5 rounded-xl hover:bg-purple-50 transition-all duration-200 hover:scale-105"
-            >
-              <Menu className="w-5 h-5 text-purple-600" />
-            </button>
-            <span className="text-gray-600 text-sm">
-              Currently on <strong className="text-purple-700 font-semibold">New order</strong>
-            </span>
-          </div>
+          {/* Page Title - shows on all sizes */}
+          <span className="text-gray-600 text-xs sm:text-sm truncate">
+            Currently on <strong className="text-purple-700 font-semibold">{currentPageTitle}</strong>
+          </span>
         </div>
 
         {/* Right side */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3">
+        <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3 flex-shrink-0">
           {/* Return to Admin Button - Show when impersonating */}
           {isAdminImpersonating && (
             <button
@@ -166,10 +181,10 @@ const Header = ({
           {/* 🚪 Logout */}
           <button
             onClick={onLogout}
-            className="text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center space-x-1.5 sm:space-x-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 shadow-md shadow-purple-500/20 hover:shadow-lg hover:scale-105"
+            className="text-white px-2.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center space-x-1 sm:space-x-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 shadow-md shadow-purple-500/20"
           >
             <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden xs:inline">Logout</span>
+            <span className="hidden sm:inline">Logout</span>
           </button>
         </div>
       </div>
