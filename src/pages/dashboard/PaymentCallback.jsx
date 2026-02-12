@@ -84,8 +84,8 @@ const PaymentCallback = () => {
             <h2 className="text-xl font-semibold text-gray-800 mb-2">Processing Payment</h2>
             <p className="text-gray-600">{message}</p>
             {debugInfo && (
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <p className="text-xs text-blue-700 break-all">{debugInfo}</p>
+              <div className="mt-4 p-3 bg-purple-50 rounded-lg">
+                <p className="text-xs text-purple-700 break-all">{debugInfo}</p>
               </div>
             )}
           </>

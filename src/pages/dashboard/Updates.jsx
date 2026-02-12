@@ -17,7 +17,7 @@ const Input = ({ type = "text", placeholder = "", value = "", onChange, classNam
     placeholder={placeholder}
     value={value}
     onChange={onChange}
-    className={`w-full border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm md:text-base ${className}`}
+    className={`w-full border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors text-sm md:text-base ${className}`}
   />
 )
 
@@ -25,8 +25,8 @@ const Button = ({ onClick, className = "", children, disabled = false, variant =
   const baseClasses = "font-medium rounded-xl transition-all text-sm md:text-base"
   const variantClasses =
     variant === "outline"
-      ? "bg-transparent border border-blue-500 text-blue-500 hover:bg-blue-50"
-      : "text-white bg-blue-500 hover:bg-blue-600"
+      ? "bg-transparent border border-purple-500 text-purple-500 hover:bg-purple-50"
+      : "text-white bg-purple-500 hover:bg-purple-600"
 
   return (
     <button
@@ -44,7 +44,7 @@ const SelectInput = ({ value, onChange, options }) => (
   <select
     value={value}
     onChange={(e) => onChange(e.target.value)}
-    className="w-full md:w-48 border border-gray-200 rounded-xl px-4 py-3 text-sm md:text-base bg-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+    className="w-full md:w-48 border border-gray-200 rounded-xl px-4 py-3 text-sm md:text-base bg-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
   >
     {options.map((opt) => (
       <option key={opt.value} value={opt.value}>
@@ -57,10 +57,10 @@ const SelectInput = ({ value, onChange, options }) => (
 // Helper: map category to color
 const categoryColors = {
   TikTok: "bg-pink-100 text-pink-600",
-  Twitter: "bg-blue-100 text-blue-600",
+  Twitter: "bg-purple-100 text-purple-600",
   YouTube: "bg-red-100 text-red-600",
   Instagram: "bg-purple-100 text-purple-600",
-  Facebook: "bg-blue-50 text-blue-700",
+  Facebook: "bg-purple-50 text-purple-700",
   Spotify: "bg-green-100 text-green-700",
   all: "bg-gray-100 text-gray-700",
 }
@@ -152,7 +152,7 @@ function Updates() {
           <p>Error loading updates: {error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
+            className="mt-2 px-4 py-2 bg-purple-500 text-white rounded-lg"
           >
             Try Again
           </button>
@@ -281,7 +281,7 @@ function Updates() {
                   key={page}
                   onClick={() => handlePageChange(page)}
                   className={`px-3 py-1 md:px-4 md:py-2 ${
-                    currentPage === page ? "bg-blue-600 text-white" : "bg-white text-gray-700"
+                    currentPage === page ? "bg-purple-600 text-white" : "bg-white text-gray-700"
                   }`}
                 >
                   {page}

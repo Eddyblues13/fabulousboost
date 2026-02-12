@@ -369,7 +369,7 @@ function API() {
                   {item.copyValue && (
                     <button 
                       onClick={() => copyToClipboard(item.copyValue, item.param)}
-                      className="text-blue-500 hover:text-blue-700"
+                      className="text-purple-500 hover:text-purple-700"
                     >
                       {copiedItem === item.param ? <Check size={16} /> : <Copy size={16} />}
                     </button>
@@ -416,7 +416,7 @@ function API() {
             <h4 className="font-medium text-sm md:text-base">Example Response</h4>
             <button
               onClick={() => copyToClipboard(JSON.stringify(section.exampleResponse, null, 2), section.title)}
-              className="flex items-center text-xs md:text-sm text-blue-500 hover:text-blue-700"
+              className="flex items-center text-xs md:text-sm text-purple-500 hover:text-purple-700"
             >
               {copiedItem === section.title ? <Check size={16} className="mr-1" /> : <Copy size={16} className="mr-1" />}
               Copy
@@ -443,21 +443,21 @@ function API() {
       <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">API Documentation</h1>
       
       {!apiKey && (
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-3 md:p-4 mb-4 md:mb-6">
+        <div className="bg-purple-50 border-l-4 border-purple-500 p-3 md:p-4 mb-4 md:mb-6">
           <div className="flex">
             <div className="flex-shrink-0">
-              <Info className="h-5 w-5 text-blue-500" />
+              <Info className="h-5 w-5 text-purple-500" />
             </div>
             <div className="ml-3">
-              <h3 className="text-sm md:text-base font-medium text-blue-800">API Key Required</h3>
-              <div className="mt-2 text-sm md:text-base text-blue-700">
+              <h3 className="text-sm md:text-base font-medium text-purple-800">API Key Required</h3>
+              <div className="mt-2 text-sm md:text-base text-purple-700">
                 <p>You need an API key to access our endpoints.</p>
               </div>
               <div className="mt-3 md:mt-4">
                 <button
                   onClick={handleGenerateApiKey}
                   disabled={loading.generateKey}
-                  className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 border border-transparent text-xs md:text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                  className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 border border-transparent text-xs md:text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50"
                 >
                   {loading.generateKey && <Loader2 className="animate-spin -ml-1 mr-2 h-4 w-4" />}
                   Generate API Key
@@ -513,7 +513,7 @@ function API() {
                     params: JSON.stringify(defaultParams, null, 2)
                   }));
                 }}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-sm md:text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-sm md:text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md"
               >
                 {apiSections.filter(s => s.type === "endpoint").map((section, idx) => (
                   <option key={idx} value={section.endpoint}>{section.endpoint}</option>
@@ -527,7 +527,7 @@ function API() {
                 value={testConfig.params}
                 onChange={(e) => setTestConfig(prev => ({ ...prev, params: e.target.value }))}
                 rows={4}
-                className="shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full text-xs md:text-sm border border-gray-300 rounded-md font-mono"
+                className="shadow-sm focus:ring-purple-500 focus:border-purple-500 mt-1 block w-full text-xs md:text-sm border border-gray-300 rounded-md font-mono"
               />
             </div>
           </div>
@@ -536,7 +536,7 @@ function API() {
             <button
               onClick={testApiEndpoint}
               disabled={loading.test}
-              className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 border border-transparent text-xs md:text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+              className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 border border-transparent text-xs md:text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50"
             >
               {loading.test && <Loader2 className="animate-spin -ml-1 mr-2 h-4 w-4" />}
               Test Endpoint
@@ -549,7 +549,7 @@ function API() {
                 <h3 className="text-base md:text-lg font-medium">Response</h3>
                 <button
                   onClick={() => copyToClipboard(JSON.stringify(testConfig.response, null, 2), "test-response")}
-                  className="flex items-center text-xs md:text-sm text-blue-500 hover:text-blue-700"
+                  className="flex items-center text-xs md:text-sm text-purple-500 hover:text-purple-700"
                 >
                   {copiedItem === "test-response" ? <Check size={16} className="mr-1" /> : <Copy size={16} className="mr-1" />}
                   Copy

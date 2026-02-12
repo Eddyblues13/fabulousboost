@@ -125,7 +125,7 @@ const TransactionCallback = () => {
           
           <button
             onClick={() => navigate("/dashboard")}
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors"
           >
             Return to your Dashboard
           </button>
@@ -150,7 +150,7 @@ const TransactionCallback = () => {
           <div className="flex space-x-3">
             <button
               onClick={() => navigate("/dashboard/add-funds")}
-              className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="flex-1 bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors"
             >
               Try Again
             </button>
@@ -182,7 +182,7 @@ const TransactionCallback = () => {
           <div className="flex space-x-3">
             <button
               onClick={() => navigate("/dashboard/add-funds")}
-              className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="flex-1 bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors"
             >
               Try Again
             </button>
@@ -213,7 +213,7 @@ const TransactionCallback = () => {
         <div className="flex space-x-3">
           <button
             onClick={() => navigate("/dashboard/support")}
-            className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            className="flex-1 bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors"
           >
             Contact Support
           </button>

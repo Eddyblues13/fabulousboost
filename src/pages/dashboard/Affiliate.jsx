@@ -24,11 +24,11 @@ import {
 } from "../../services/userService"
 
 const socialPlatforms = [
-  { name: "Facebook", icon: "📘", color: "bg-blue-600" },
+  { name: "Facebook", icon: "📘", color: "bg-purple-600" },
   { name: "Twitter", icon: "🐦", color: "bg-sky-500" },
   { name: "Instagram", icon: "📷", color: "bg-pink-500" },
   { name: "WhatsApp", icon: "💬", color: "bg-green-500" },
-  { name: "Telegram", icon: "✈️", color: "bg-blue-500" },
+  { name: "Telegram", icon: "✈️", color: "bg-purple-500" },
 ]
 
 const Affiliate = () => {
@@ -225,7 +225,7 @@ const Affiliate = () => {
             <button
               onClick={handleGenerateLink}
               disabled={isLoading}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium"
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-md font-medium"
             >
               {isLoading ? 'Creating...' : 'Create My Affiliate Program'}
             </button>
@@ -237,17 +237,17 @@ const Affiliate = () => {
               {/* Referral Link Card */}
               <div className="bg-white rounded-lg shadow p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <ExternalLink className="w-5 h-5 text-blue-600" />
+                  <ExternalLink className="w-5 h-5 text-purple-600" />
                   <h2 className="text-lg font-semibold text-gray-700">Referral Link</h2>
                 </div>
                 <div className="space-y-3">
                   <div className="bg-gray-50 p-3 rounded border">
-                    <code className="text-sm text-blue-600 break-all">{referralLink}</code>
+                    <code className="text-sm text-purple-600 break-all">{referralLink}</code>
                   </div>
                   <div className="flex gap-2">
                     <button
                       onClick={copyReferralLink}
-                      className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md flex items-center justify-center"
+                      className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md flex items-center justify-center"
                     >
                       {copiedLink ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
                       {copiedLink ? "Copied!" : "Copy Link"}
@@ -298,7 +298,7 @@ const Affiliate = () => {
             {/* Social Sharing */}
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Share2 className="w-5 h-5 text-blue-600" />
+                <Share2 className="w-5 h-5 text-purple-600" />
                 <div>
                   <h2 className="text-xl font-bold text-gray-800">Share Your Link</h2>
                   <p className="text-gray-600">Share your referral link on social media platforms</p>
@@ -335,8 +335,8 @@ const Affiliate = () => {
                 </button>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <Eye className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <div className="text-center p-4 bg-purple-50 rounded-lg">
+                  <Eye className="w-8 h-8 text-purple-600 mx-auto mb-2" />
                   <div className="text-2xl font-bold text-gray-900">{stats?.visits || 0}</div>
                   <div className="text-sm text-gray-600">Visits</div>
                 </div>
@@ -394,7 +394,7 @@ const Affiliate = () => {
                     <button
                       onClick={handleRequestPayout}
                       disabled={isLoading || (Number(stats?.available_earnings) || 0) < Number(minimumPayout)}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium disabled:opacity-50"
+                      className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium disabled:opacity-50"
                     >
                       {isLoading ? 'Processing...' : 'Request Payout'}
                     </button>
@@ -404,7 +404,7 @@ const Affiliate = () => {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
                     <thead>
-                      <tr className="bg-blue-50">
+                      <tr className="bg-purple-50">
                         <th className="py-3 px-4 font-semibold text-gray-700">Payout Date</th>
                         <th className="py-3 px-4 font-semibold text-gray-700">Payout Amount</th>
                         <th className="py-3 px-4 font-semibold text-gray-700">Payout Status</th>
@@ -485,9 +485,9 @@ const Affiliate = () => {
                 <div className="space-y-4">
                   <h4 className="font-semibold text-gray-800">Commission Structure:</h4>
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded">
+                    <div className="flex justify-between items-center p-3 bg-purple-50 rounded">
                       <span className="text-sm font-medium">Commission Rate</span>
-                      <span className="font-bold text-blue-600">{commissionRate}%</span>
+                      <span className="font-bold text-purple-600">{commissionRate}%</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-green-50 rounded">
                       <span className="text-sm font-medium">Minimum Payout</span>

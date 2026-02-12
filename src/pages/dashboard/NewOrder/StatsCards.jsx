@@ -50,7 +50,7 @@ const StatsCards = ({ user, formattedBalance, selectedCurrency }) => {
         
         <div className="bg-white rounded-2xl p-4 shadow-md border border-purple-100 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
           <div className="flex items-center space-x-4">
-            <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl p-3 flex-shrink-0">
+            <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl p-3 flex-shrink-0">
               <Package className="w-6 h-6 text-white" />
             </div>
             <div className="min-w-0 flex-1">
@@ -106,7 +106,7 @@ const StatsCards = ({ user, formattedBalance, selectedCurrency }) => {
         
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-100 transition-all duration-300 hover:scale-105 hover:shadow-xl">
           <div className="flex items-center space-x-4">
-            <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl p-4 flex-shrink-0">
+            <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl p-4 flex-shrink-0">
               <Package className="w-8 h-8 text-white" />
             </div>
             <div className="min-w-0 flex-1">

@@ -34,7 +34,7 @@ const getStatusColor = (status) => {
     case "pending":
       return "bg-yellow-100 text-yellow-800"
     case "processing":
-      return `${THEME_COLORS.primary?.[100] ?? "bg-blue-100"} ${THEME_COLORS.text?.primary700 ?? "text-blue-700"}`
+      return `${THEME_COLORS.primary?.[100] ?? "bg-purple-100"} ${THEME_COLORS.text?.primary700 ?? "text-purple-700"}`
     case "partial":
       return "bg-purple-100 text-purple-800"
     case "cancelled":
@@ -405,7 +405,7 @@ const OrderHistory = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center space-x-1.5 px-3 py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
                     activeTab === tab.id
-                      ? `${THEME_COLORS.primary?.[500] ?? "bg-blue-600"} text-white shadow-md`
+                      ? `${THEME_COLORS.primary?.[500] ?? "bg-purple-600"} text-white shadow-md`
                       : `${THEME_COLORS.background?.card ?? "bg-white"} text-gray-700 ${THEME_COLORS.border?.primary200 ?? "border-gray-200"} border ${THEME_COLORS.hover?.primary100 ?? ""}`
                   }`}
                 >
@@ -426,7 +426,7 @@ const OrderHistory = () => {
                 placeholder="Search orders..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm ${THEME_COLORS.border?.primary200 ?? "border-gray-200"} ${THEME_COLORS.background?.muted ?? "bg-gray-50"}`}
+                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm ${THEME_COLORS.border?.primary200 ?? "border-gray-200"} ${THEME_COLORS.background?.muted ?? "bg-gray-50"}`}
               />
             </div>
             <button
@@ -511,14 +511,14 @@ const OrderHistory = () => {
                           href={order.link} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="text-xs text-blue-600 hover:underline truncate flex-1"
+                          className="text-xs text-purple-600 hover:underline truncate flex-1"
                           title={order.link}
                         >
                           {order.link?.length > 40 ? `${order.link.substring(0, 40)}...` : order.link}
                         </a>
                         <button 
                           onClick={() => copyToClipboard(order.link)} 
-                          className="text-gray-400 hover:text-blue-500 flex-shrink-0"
+                          className="text-gray-400 hover:text-purple-500 flex-shrink-0"
                           title="Copy link"
                         >
                           <Copy className="w-4 h-4" />
@@ -546,7 +546,7 @@ const OrderHistory = () => {
                             <div className="flex items-center gap-2">
                               <button 
                                 onClick={() => copyToClipboard(order.link)} 
-                                className="text-gray-500 hover:text-blue-600 transition-colors"
+                                className="text-gray-500 hover:text-purple-600 transition-colors"
                                 title="Copy link"
                               >
                                 <Copy className="w-4 h-4" />
@@ -555,7 +555,7 @@ const OrderHistory = () => {
                                 href={order.link} 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                className="text-xs text-blue-600 hover:underline font-medium"
+                                className="text-xs text-purple-600 hover:underline font-medium"
                               >
                                 Open
                               </a>
@@ -565,7 +565,7 @@ const OrderHistory = () => {
                             href={order.link} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="text-xs text-blue-600 hover:underline break-all block"
+                            className="text-xs text-purple-600 hover:underline break-all block"
                           >
                             {order.link}
                           </a>
@@ -602,9 +602,9 @@ const OrderHistory = () => {
 
                       {/* Status Description - Only if exists */}
                       {hasValue(order.status_description) && (
-                        <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
-                          <div className="text-xs font-medium text-blue-700 mb-1">Status Description</div>
-                          <div className="text-sm text-blue-800">{order.status_description}</div>
+                        <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                          <div className="text-xs font-medium text-purple-700 mb-1">Status Description</div>
+                          <div className="text-sm text-purple-800">{order.status_description}</div>
                         </div>
                       )}
 
@@ -719,7 +719,7 @@ const OrderHistory = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center space-x-2 px-6 py-3 rounded-full font-medium ${
                     activeTab === tab.id
-                      ? `${THEME_COLORS.primary?.[500] ?? "bg-blue-600"} text-white shadow-lg`
+                      ? `${THEME_COLORS.primary?.[500] ?? "bg-purple-600"} text-white shadow-lg`
                       : `${THEME_COLORS.background?.card ?? "bg-white"} text-gray-700 ${THEME_COLORS.border?.primary200 ?? "border-gray-200"} border ${THEME_COLORS.hover?.primary100 ?? ""}`
                   }`}
                 >
@@ -740,7 +740,7 @@ const OrderHistory = () => {
                   placeholder="Search orders, services, or links..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base ${THEME_COLORS.border?.primary200 ?? "border-gray-200"} ${THEME_COLORS.background?.muted ?? "bg-gray-50"}`}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-base ${THEME_COLORS.border?.primary200 ?? "border-gray-200"} ${THEME_COLORS.background?.muted ?? "bg-gray-50"}`}
                 />
               </div>
               <div className="flex gap-2">
@@ -799,7 +799,7 @@ const OrderHistory = () => {
                 </>
               ) : orders.length > 0 ? (
                 orders.map((order) => (
-                  <div key={order.id} className={`grid grid-cols-12 gap-4 px-6 py-4 items-center text-sm border-b border-gray-100 hover:bg-gray-50 transition-colors ${expandedOrder === order.id ? "bg-blue-50" : ""}`}>
+                  <div key={order.id} className={`grid grid-cols-12 gap-4 px-6 py-4 items-center text-sm border-b border-gray-100 hover:bg-gray-50 transition-colors ${expandedOrder === order.id ? "bg-purple-50" : ""}`}>
                     <div className="col-span-1 font-bold text-gray-900">#{order.id}</div>
                     <div className="col-span-2 text-gray-600 text-sm">
                       {formatDate(order.created_at || order.added_on)}
@@ -814,14 +814,14 @@ const OrderHistory = () => {
                             href={order.link} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="text-blue-600 hover:underline truncate text-sm flex-1" 
+                            className="text-purple-600 hover:underline truncate text-sm flex-1" 
                             title={order.link}
                           >
                             {order.link.length > 40 ? `${order.link.substring(0, 40)}...` : order.link}
                           </a>
                           <button 
                             onClick={() => copyToClipboard(order.link)} 
-                            className="text-gray-400 hover:text-blue-500 flex-shrink-0" 
+                            className="text-gray-400 hover:text-purple-500 flex-shrink-0" 
                             title="Copy link"
                           >
                             <Copy className="w-4 h-4" />
@@ -848,7 +848,7 @@ const OrderHistory = () => {
                           href={order.link} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="text-gray-400 hover:text-blue-600 transition-colors" 
+                          className="text-gray-400 hover:text-purple-600 transition-colors" 
                           title="Open link"
                         >
                           <ExternalLink className="w-4 h-4" />
@@ -856,7 +856,7 @@ const OrderHistory = () => {
                       )}
                       <button 
                         onClick={() => toggleOrderExpansion(order.id)} 
-                        className="text-gray-400 hover:text-blue-600 transition-colors" 
+                        className="text-gray-400 hover:text-purple-600 transition-colors" 
                         title="View details"
                       >
                         {expandedOrder === order.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -939,13 +939,13 @@ const OrderHistory = () => {
                               href={order.link} 
                               target="_blank" 
                               rel="noopener noreferrer" 
-                              className="text-blue-600 hover:underline break-all flex-1 text-sm"
+                              className="text-purple-600 hover:underline break-all flex-1 text-sm"
                             >
                               {order.link}
                             </a>
                             <button 
                               onClick={() => copyToClipboard(order.link)} 
-                              className="text-gray-400 hover:text-blue-500 flex-shrink-0"
+                              className="text-gray-400 hover:text-purple-500 flex-shrink-0"
                             >
                               <Copy className="w-4 h-4" />
                             </button>
@@ -957,7 +957,7 @@ const OrderHistory = () => {
                       {hasValue(order.status_description) && (
                         <div>
                           <div className="text-xs text-gray-500 mb-2">Status Description</div>
-                          <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 text-sm text-blue-800">{order.status_description}</div>
+                          <div className="bg-purple-50 p-3 rounded-lg border border-purple-100 text-sm text-purple-800">{order.status_description}</div>
                         </div>
                       )}
 
@@ -1085,7 +1085,7 @@ const OrderHistory = () => {
                       <div className="flex justify-end pt-4 border-t border-gray-200">
                         <button 
                           onClick={() => setExpandedOrder(null)} 
-                          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                          className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
                         >
                           Close
                         </button>

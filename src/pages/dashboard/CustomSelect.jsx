@@ -54,7 +54,7 @@ const CustomSelect = ({
                 onChange(option);
                 setIsOpen(false);
               }}
-              className="w-full px-4 py-3 text-left hover:bg-blue-50 focus:bg-blue-50 text-gray-700 border-b border-gray-100 last:border-b-0 cursor-pointer"
+              className="w-full px-4 py-3 text-left hover:bg-purple-50 focus:bg-purple-50 text-gray-700 border-b border-gray-100 last:border-b-0 cursor-pointer"
             >
               <div className="truncate">{option[displayProperty]}</div>
             </div>

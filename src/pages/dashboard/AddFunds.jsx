@@ -418,7 +418,7 @@ const AddFunds = () => {
                             const currency = currencies.find(c => c.code === e.target.value)
                             setSelectedCurrency(currency || selectedCurrency)
                           }}
-                          className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none text-base"
+                          className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors appearance-none text-base"
                           style={{ backgroundColor: CSS_COLORS.background.muted }}
                           disabled={isLoading}
                         >
@@ -439,7 +439,7 @@ const AddFunds = () => {
                         <select
                           value={selectedMethod}
                           onChange={(e) => setSelectedMethod(e.target.value)}
-                          className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none text-base"
+                          className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors appearance-none text-base"
                           style={{ backgroundColor: CSS_COLORS.background.muted }}
                           disabled={isLoading}
                         >
@@ -467,7 +467,7 @@ const AddFunds = () => {
                           placeholder={`Enter amount (min ${currentMethod?.minAmount} ${selectedCurrency.code})`}
                           value={amount}
                           onChange={(e) => setAmount(e.target.value)}
-                          className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base"
+                          className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors text-base"
                           style={{ backgroundColor: CSS_COLORS.background.muted }}
                           disabled={isLoading}
                           min={currentMethod?.minAmount}
