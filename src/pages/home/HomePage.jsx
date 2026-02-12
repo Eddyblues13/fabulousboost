@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Particles from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
@@ -17,6 +17,16 @@ import TestimonialsSection from '../sections/CustomerStories';
 import GetStarted from '../sections/Getstarted';
 
 const HomePage = () => {
+  // Only show particles on desktop (lg breakpoint = 1024px)
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+
   const particlesInit = useCallback(async (engine) => {
     await loadSlim(engine);
   }, []);
@@ -86,28 +96,12 @@ const HomePage = () => {
       detectsOn: "canvas",
       events: {
         onHover: {
-          enable: true,
-          mode: "grab"
+          enable: false
         },
         onClick: {
           enable: false
         },
         resize: true
-      },
-      modes: {
-        grab: {
-          distance: 200,
-          links: {
-            opacity: 0.8
-          }
-        },
-        push: {
-          quantity: 4
-        },
-        repulse: {
-          distance: 200,
-          duration: 0.4
-        }
       }
     },
     detectRetina: true,
@@ -190,7 +184,8 @@ const HomePage = () => {
     <div className="bg-gradient-to-b from-[#faf5ff] to-white overflow-x-hidden">
     {/* ============ HERO SECTION ============ */}
     <section className="relative min-h-screen pt-20 sm:pt-24 md:pt-28 lg:pt-32 overflow-hidden flex items-center justify-center py-12 bg-white">
-      {/* Particles Background */}
+      {/* Particles Background - Desktop only */}
+      {isDesktop && (
       <div 
         id="particles-container"
         className="absolute inset-0 pointer-events-none"
@@ -218,6 +213,7 @@ const HomePage = () => {
           }}
         />
       </div>
+      )}
 
       {/* Scattered Color Blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>

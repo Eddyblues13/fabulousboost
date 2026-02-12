@@ -23,3 +23,11 @@ html, body{
   background-size: 200% 200%;
   animation: gradient 3s ease infinite;
 }
+
+/* Force particles canvas to never block interaction */
+#tsparticles,
+#tsparticles canvas,
+#particles-container,
+#particles-container * {
+  pointer-events: none !important;
+}
