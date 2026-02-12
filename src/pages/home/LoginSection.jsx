@@ -61,7 +61,7 @@ const LoginSection = ({ variant = "standalone" }) => {
       <div className="w-full max-w-md mx-auto">
         <div className="relative">
           {/* Glow effect behind card */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-400/20 via-pink-400/15 to-purple-400/20 rounded-3xl blur-xl" />
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-400/20 via-pink-400/15 to-purple-400/20 rounded-3xl blur-xl pointer-events-none" />
           
           <div className="relative bg-white rounded-3xl p-8 border border-purple-100 shadow-xl shadow-purple-200/40">
             {/* Header */}
@@ -179,13 +179,13 @@ const LoginSection = ({ variant = "standalone" }) => {
   return (
     <div id="login-section" className="relative py-12 px-4 bg-gradient-to-b from-[#faf5ff] to-white">
       {/* Subtle background glow */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-purple-200/30 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-md mx-auto">
         <div className="relative">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-400/20 via-pink-400/15 to-purple-400/20 rounded-3xl blur-lg" />
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-400/20 via-pink-400/15 to-purple-400/20 rounded-3xl blur-lg pointer-events-none" />
           
           <div className="relative bg-white rounded-3xl p-8 border border-purple-100 shadow-xl shadow-purple-100/50">
             {/* Header */}

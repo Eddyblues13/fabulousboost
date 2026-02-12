@@ -193,7 +193,7 @@ const HomePage = () => {
       {/* Particles Background */}
       <div 
         id="particles-container"
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 pointer-events-none"
         style={{ 
           position: 'absolute', 
           top: 0, 
@@ -213,13 +213,14 @@ const HomePage = () => {
             height: '100%',
             position: 'absolute',
             top: 0,
-            left: 0
+            left: 0,
+            pointerEvents: 'none'
           }}
         />
       </div>
 
       {/* Scattered Color Blobs */}
-      <div className="absolute inset-0 z-0 overflow-hidden" style={{ zIndex: 0 }}>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
         {/* Top-left purple blob */}
         <motion.div 
           className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-purple-300/30 rounded-full blur-3xl"
