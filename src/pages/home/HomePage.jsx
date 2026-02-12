@@ -83,15 +83,14 @@ const HomePage = () => {
       }
     },
     interactivity: {
-      detectsOn: "window",
+      detectsOn: "canvas",
       events: {
         onHover: {
           enable: true,
           mode: "grab"
         },
         onClick: {
-          enable: true,
-          mode: "push"
+          enable: false
         },
         resize: true
       },
@@ -159,9 +158,9 @@ const HomePage = () => {
 
   const floatVariants = {
     animate: {
-      y: [0, -25, 0],
+      y: [0, -10, 0],
       transition: {
-        duration: 4,
+        duration: 6,
         repeat: Infinity,
         ease: "easeInOut"
       }
@@ -170,10 +169,10 @@ const HomePage = () => {
 
   const pulseVariants = {
     animate: {
-      scale: [1, 1.15, 1],
+      scale: [1, 1.05, 1],
       opacity: [0.15, 0.25, 0.15],
       transition: {
-        duration: 5,
+        duration: 7,
         repeat: Infinity,
         ease: "easeInOut"
       }
@@ -188,7 +187,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#faf5ff] to-white">
+    <div className="bg-gradient-to-b from-[#faf5ff] to-white overflow-x-hidden">
     {/* ============ HERO SECTION ============ */}
     <section className="relative min-h-screen pt-20 sm:pt-24 md:pt-28 lg:pt-32 overflow-hidden flex items-center justify-center py-12 bg-white">
       {/* Particles Background */}

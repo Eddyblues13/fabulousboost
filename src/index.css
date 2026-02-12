@@ -2,11 +2,12 @@
 @import "tailwindcss";
 
 
-body{
+html, body{
   font-family: 'Fredoka', sans-serif;
   font-weight: 350;
   font-style: normal;
   background-color: #faf5ff;
+  overflow-x: hidden;
 }
 
 @keyframes gradient {

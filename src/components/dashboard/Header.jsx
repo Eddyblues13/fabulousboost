@@ -55,7 +55,7 @@ const Header = ({
   }, [])
 
   return (
-    <header className="bg-white/80 backdrop-blur-xl border-b border-purple-100 sticky top-0 z-30 mx-2 sm:mx-4 mt-2 sm:mt-4 rounded-xl sm:rounded-2xl shadow-lg shadow-purple-100/50">
+    <header className="bg-white/90 backdrop-blur-xl border-b border-purple-100 sticky top-0 z-30 mx-2 sm:mx-4 mt-2 sm:mt-4 rounded-xl sm:rounded-2xl shadow-sm shadow-purple-100/30">
       <div className="flex items-center justify-between px-4 py-3 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
         {/* Left side */}
         <div className="flex items-center space-x-3">
@@ -166,7 +166,7 @@ const Header = ({
           {/* 🚪 Logout */}
           <button
             onClick={onLogout}
-            className="text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center space-x-1.5 sm:space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-md hover:shadow-lg hover:scale-105"
+            className="text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center space-x-1.5 sm:space-x-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 shadow-md shadow-purple-500/20 hover:shadow-lg hover:scale-105"
           >
             <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span className="hidden xs:inline">Logout</span>

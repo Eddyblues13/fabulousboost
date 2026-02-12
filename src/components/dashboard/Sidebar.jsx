@@ -66,7 +66,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, user }) => {
       >
         <div className="flex flex-col h-full">
           {/* Logo & Toggle */}
-          <div className={`p-4 sm:p-5 lg:p-6 border-b ${THEME_COLORS.border.primary200}`}>
+          <div className={`p-4 sm:p-5 lg:p-6 border-b border-white/15`}>
             <div className="flex items-center justify-between">
               <span className="font-bold text-white text-base sm:text-lg truncate">fabulousboost.com</span>
               <button

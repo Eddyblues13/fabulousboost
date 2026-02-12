@@ -31,8 +31,8 @@ export const THEME_COLORS = {
   },
   // Background colors
   background: {
-    primary: "bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50",
-    secondary: "bg-gradient-to-r from-purple-50 to-pink-50",
+    primary: "bg-white",
+    secondary: "bg-gradient-to-b from-[#faf5ff] to-white",
     card: "bg-white",
     muted: "bg-gray-50",
     accent: "bg-purple-50",
@@ -49,15 +49,14 @@ export const CSS_COLORS = {
 
   // Background colors
   background: {
-    primary: "linear-gradient(135deg, #faf5ff 0%, #fdf2f8 50%, #faf5ff 100%)", // purple-50 to pink-50 to purple-50
+    primary: "linear-gradient(135deg, #ffffff 0%, #faf5ff 30%, #fdf2f8 60%, #ffffff 100%)",
     secondary: "linear-gradient(90deg, #faf5ff 0%, #fdf2f8 100%)", // purple-50 to pink-50
     card: "#ffffff",           // white card
     muted: "#f9fafb",          // gray-50
     accent: "#faf5ff",         // purple-50
     overlay: "rgba(168, 85, 247, 0.05)", // purple-500 with 5% opacity
-    sidebar: "linear-gradient(135deg, #9333ea 0%, #a855f7 50%, #c084fc 100%)",
-    activeSidebar: "linear-gradient(135deg, #6b21a8 0%, #7e22ce 40%, #9333ea 100%)",
-
+    sidebar: "linear-gradient(180deg, #7c3aed 0%, #9333ea 40%, #a855f7 70%, #c026d3 100%)",
+    activeSidebar: "linear-gradient(135deg, #6d28d9 0%, #7c3aed 40%, #a855f7 100%)",
   },
 
 

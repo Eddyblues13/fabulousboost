@@ -78,7 +78,16 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden bg-gradient-to-br from-purple-50 via-fuchsia-50 to-purple-50">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-white relative">
+      {/* Scattered color blobs - matching homepage style */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-20 -left-20 w-[350px] h-[350px] bg-purple-200/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -right-10 w-[300px] h-[300px] bg-pink-200/15 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 left-1/4 w-[250px] h-[250px] bg-violet-200/15 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 right-1/3 w-[300px] h-[300px] bg-fuchsia-200/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 w-[200px] h-[200px] bg-indigo-200/10 rounded-full blur-2xl" />
+      </div>
+
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-40 lg:hidden transition-opacity duration-300"
@@ -99,7 +108,7 @@ const DashboardLayout = () => {
         formatCurrency={formatCurrency}
       />
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative z-10">
         <Sidebar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
