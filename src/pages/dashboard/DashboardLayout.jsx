@@ -107,16 +107,16 @@ const DashboardLayout = () => {
         formatCurrency={formatCurrency}
       />
 
-      <div className="flex flex-1 relative z-10">
-        <Sidebar
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          selectedCurrency={selectedCurrency}
-          convertToSelectedCurrency={convertToSelectedCurrency}
-          formatCurrency={formatCurrency}
-          user={user}
-        />
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        selectedCurrency={selectedCurrency}
+        convertToSelectedCurrency={convertToSelectedCurrency}
+        formatCurrency={formatCurrency}
+        user={user}
+      />
 
+      <div className="flex flex-1 relative">
         <main className="flex-1 pt-16 sm:pt-18 lg:pt-20 lg:ml-64 overflow-x-hidden">
           <div className="w-full min-h-[calc(100vh-4rem)] overflow-x-hidden">
             <div className="min-h-full p-3 sm:p-4 md:p-6 lg:p-8 w-full overflow-x-hidden">

@@ -78,7 +78,7 @@ const Header = ({
   }, [])
 
   return (
-    <header className="bg-white/90 backdrop-blur-xl border-b border-purple-100 sticky top-0 z-30 mx-2 sm:mx-4 mt-2 sm:mt-4 rounded-xl sm:rounded-2xl shadow-sm shadow-purple-100/30">
+    <header className="bg-white/90 backdrop-blur-xl border-b border-purple-100 sticky top-0 z-20 mx-2 sm:mx-4 mt-2 sm:mt-4 rounded-xl sm:rounded-2xl shadow-sm shadow-purple-100/30">
       <div className="flex items-center justify-between px-3 py-2.5 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
         {/* Left side */}
         <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
