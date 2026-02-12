@@ -10,8 +10,6 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showNavbar, setShowNavbar] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,31 +17,15 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
-  // Scroll behavior
+  // Track scroll for background style
   useEffect(() => {
-    let timeoutId;
-
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setShowNavbar(false);
-      } else {
-        setShowNavbar(true);
-      }
-
-      setScrolled(currentScrollY > 50);
-      setLastScrollY(currentScrollY);
-
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setShowNavbar(true);
-      }, 200);
+      setScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   // Smooth scroll to login section
   const scrollToLogin = () => {
@@ -69,14 +51,12 @@ const Navbar = () => {
   
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transform transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled 
           ? "bg-white/90 backdrop-blur-xl border-b border-purple-100 shadow-sm" 
           : isHomePage 
             ? "bg-transparent" 
             : "bg-white/95 backdrop-blur-md border-b border-purple-50"
-      } ${
-        showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
