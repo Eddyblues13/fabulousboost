@@ -17,9 +17,14 @@ const Footer = () => {
             <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-black text-sm">F</span>
             </div>
-            <span className="text-purple-900 font-bold text-lg">
-              Fabulous<span className="text-purple-600">boost</span>
-            </span>
+            <div>
+              <span className="text-purple-900 font-bold text-lg block leading-tight">
+                Fabulous<span className="text-purple-600">boost</span>
+              </span>
+              <span className="text-[9px] text-gray-400 font-medium tracking-wide uppercase leading-none">
+                Fabulous Services Limited
+              </span>
+            </div>
           </div>
 
           {/* Links */}
@@ -31,7 +36,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-gray-400 text-sm">
-            &copy; {currentYear} Fabulousboost. All rights reserved.
+            &copy; {currentYear} Fabulous Services Limited. All rights reserved.
           </p>
         </div>
       </div>

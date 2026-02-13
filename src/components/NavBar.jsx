@@ -65,9 +65,14 @@ const Navbar = () => {
           <div className="w-9 h-9 bg-gradient-to-br from-purple-600 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
             <span className="text-white font-black text-lg">F</span>
           </div>
-          <span className={`font-bold text-xl hidden sm:block text-gray-800`}>
-            Fabulous<span className="text-purple-600">boost</span>
-          </span>
+          <div className="hidden sm:block">
+            <span className="font-bold text-xl text-gray-800 block leading-tight">
+              Fabulous<span className="text-purple-600">boost</span>
+            </span>
+            <span className="text-[9px] text-gray-400 font-medium tracking-wide uppercase leading-none">
+              Fabulous Services Limited
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
