@@ -22,7 +22,7 @@ const Footer = () => {
                 Fabulous<span className="text-purple-600">boost</span>
               </span>
               <span className="text-[9px] text-gray-400 font-medium tracking-wide uppercase leading-none">
-                Fabulous Services Limited
+                A product of Fabulous Services Limited
               </span>
             </div>
           </div>
@@ -35,8 +35,15 @@ const Footer = () => {
           </div>
 
           {/* Copyright */}
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-400 text-sm text-center md:text-right">
             &copy; {currentYear} Fabulous Services Limited. All rights reserved.
+          </p>
+        </div>
+
+        {/* Bottom divider & product statement */}
+        <div className="mt-8 pt-6 border-t border-purple-50 text-center">
+          <p className="text-xs text-gray-400">
+            Fabulousboost is a product of <span className="font-semibold text-gray-500">Fabulous Services Limited</span>
           </p>
         </div>
       </div>

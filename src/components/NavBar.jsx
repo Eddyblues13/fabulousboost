@@ -70,7 +70,7 @@ const Navbar = () => {
               Fabulous<span className="text-purple-600">boost</span>
             </span>
             <span className="text-[9px] text-gray-400 font-medium tracking-wide uppercase leading-none">
-              Fabulous Services Limited
+              A product of Fabulous Services Limited
             </span>
           </div>
         </Link>
