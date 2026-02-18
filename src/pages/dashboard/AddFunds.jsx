@@ -173,59 +173,21 @@ const AddFunds = () => {
     }
   }
 
-  const handleProofSubmit = async (proofMethod) => {
-    setSubmittingProof(true)
-    try {
-      // Create pending transaction in backend
-      const response = await initiateManualPayment({
-        amount: Number(amount),
-        payment_method: 'opay_manual',
-        proof_method: proofMethod,
-      })
-
-      if (response.success) {
-        const txRef = response.transaction_id
-
-        toast.success('Transaction recorded! Redirecting you to submit proof...')
-
-        // Construct the WhatsApp/email URL with transaction reference
-        if (proofMethod === 'whatsapp') {
-          const waMessage = encodeURIComponent(
-            `Hi, I just made a bank transfer of ${formatCurrency(amount, selectedCurrency.code)} to your OPay account (${opayDetails.accountNumber}).\n\nTransaction Reference: ${txRef}\nMy account email: ${user?.email || ''}\n\nPlease verify and credit my account. Thank you!`
-          )
-          window.open(`https://wa.me/${opayDetails.whatsapp.replace(/[^0-9]/g, '')}?text=${waMessage}`, '_blank')
-        } else {
-          const emailSubject = encodeURIComponent(`Payment Proof - ${formatCurrency(amount, selectedCurrency.code)} - Ref: ${txRef}`)
-          const emailBody = encodeURIComponent(
-            `Hello,\n\nI have made a bank transfer of ${formatCurrency(amount, selectedCurrency.code)} to your OPay account (${opayDetails.accountNumber}).\n\nTransaction Reference: ${txRef}\nMy account email: ${user?.email || ''}\n\nPlease find attached the proof of payment.\n\nThank you!`
-          )
-          window.open(`mailto:${opayDetails.email}?subject=${emailSubject}&body=${emailBody}`, '_blank')
-        }
-
-        // Close modal, reset amount, refresh history
-        setShowOpayModal(false)
-        setAmount('')
-
-        // Refresh transaction history
-        try {
-          const historyResponse = await paymentHistory()
-          setTransactionHistory(historyResponse.data || [])
-        } catch (e) {
-          // Non-critical, don't show error
-        }
-      } else {
-        throw new Error(response.message || 'Failed to record transaction')
-      }
-    } catch (error) {
-      console.error('Manual payment error:', error)
-      toast.error(
-        error.response?.data?.message ||
-        error.message ||
-        'Failed to record transaction. Please try again.'
+  const handleProofSubmit = (proofMethod) => {
+    if (proofMethod === 'whatsapp') {
+      const waMessage = encodeURIComponent(
+        `Hi, I just made a bank transfer of ${formatCurrency(amount, selectedCurrency.code)} to your OPay account (${opayDetails.accountNumber}).\nMy account email: ${user?.email || ''}\nPlease verify and credit my account. Thank you!`
       )
-    } finally {
-      setSubmittingProof(false)
+      window.open(`https://wa.me/${opayDetails.whatsapp.replace(/[^0-9]/g, '')}?text=${waMessage}`, '_blank')
+    } else {
+      const emailSubject = encodeURIComponent(`Payment Proof - ${formatCurrency(amount, selectedCurrency.code)}`)
+      const emailBody = encodeURIComponent(
+        `Hello,\n\nI have made a bank transfer of ${formatCurrency(amount, selectedCurrency.code)} to your OPay account (${opayDetails.accountNumber}).\nMy account email: ${user?.email || ''}\n\nPlease find attached the proof of payment.\n\nThank you!`
+      )
+      window.open(`mailto:${opayDetails.email}?subject=${emailSubject}&body=${emailBody}`, '_blank')
     }
+    setShowOpayModal(false)
+    setAmount('')
   }
 
   const formatDate = (dateString) => {
@@ -245,102 +207,66 @@ const AddFunds = () => {
   const OpayModal = () => {
     if (!showOpayModal) return null
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}>
-        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} onClick={() => setShowOpayModal(false)}>
+        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full" onClick={(e) => e.stopPropagation()}>
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-100">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#E8F5E9' }}>
-                <Banknote className="w-5 h-5" style={{ color: '#2E7D32' }} />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-900">Bank Transfer Details</h3>
-                <p className="text-sm text-gray-500">Send exactly the amount below</p>
-              </div>
-            </div>
-            <button onClick={() => setShowOpayModal(false)} className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+          <div className="flex items-center justify-between p-5 border-b border-gray-200">
+            <h3 className="text-lg font-bold text-gray-900">Bank Transfer Details</h3>
+            <button onClick={() => setShowOpayModal(false)} className="p-1 rounded-full hover:bg-gray-100">
               <X className="w-5 h-5 text-gray-400" />
             </button>
           </div>
 
-          {/* Amount Display */}
-          <div className="mx-6 mt-6 p-4 rounded-xl text-center" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-            <p className="text-white/80 text-sm mb-1">Amount to Transfer</p>
-            <p className="text-white text-3xl font-bold">{formatCurrency(amount, selectedCurrency.code)}</p>
-          </div>
+          <div className="p-5 space-y-4">
+            {/* Amount */}
+            <div className="text-center p-3 rounded-lg bg-purple-50">
+              <p className="text-sm text-gray-500">Amount to Transfer</p>
+              <p className="text-2xl font-bold text-gray-900">{formatCurrency(amount, selectedCurrency.code)}</p>
+            </div>
 
-          {/* Account Details */}
-          <div className="p-6 space-y-4">
-            <div className="space-y-3">
-              {/* Bank Name */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100">
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider">Bank</p>
-                  <p className="text-base font-semibold text-gray-900">{opayDetails.bankName}</p>
+            {/* Account Details */}
+            <div className="space-y-2">
+              <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-500">Bank</span>
+                <span className="text-sm font-semibold text-gray-900">{opayDetails.bankName}</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-500">Account Number</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-gray-900 font-mono">{opayDetails.accountNumber}</span>
+                  <button onClick={() => copyToClipboard(opayDetails.accountNumber, 'account')} className="p-1 rounded hover:bg-gray-200">
+                    {copiedField === 'account' ? <CheckCircle2 className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-400" />}
+                  </button>
                 </div>
               </div>
-
-              {/* Account Number */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100">
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider">Account Number</p>
-                  <p className="text-base font-semibold text-gray-900 font-mono">{opayDetails.accountNumber}</p>
-                </div>
-                <button
-                  onClick={() => copyToClipboard(opayDetails.accountNumber, 'account')}
-                  className="p-2 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Copy account number"
-                >
-                  {copiedField === 'account' ? <CheckCircle2 className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5 text-gray-400" />}
-                </button>
-              </div>
-
-              {/* Account Name */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100">
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider">Account Name</p>
-                  <p className="text-base font-semibold text-gray-900">{opayDetails.accountName}</p>
-                </div>
+              <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-500">Account Name</span>
+                <span className="text-sm font-semibold text-gray-900">{opayDetails.accountName}</span>
               </div>
             </div>
 
-            {/* Important Notice */}
-            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200">
-              <p className="text-sm text-amber-800 font-medium">⚠️ Important</p>
-              <p className="text-sm text-amber-700 mt-1">Transfer the exact amount shown above. Your account will be credited after payment verification.</p>
-            </div>
+            {/* Notice */}
+            <p className="text-sm text-amber-700 bg-amber-50 p-3 rounded-lg">⚠️ Transfer the exact amount. Your account will be credited after verification.</p>
 
-            {/* Divider */}
-            <div className="relative py-2">
-              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200"></div></div>
-              <div className="relative flex justify-center">
-                <span className="bg-white px-3 text-sm text-gray-500">Submit Proof of Payment</span>
-              </div>
-            </div>
-
-            {/* Contact Methods */}
-            <div className="space-y-3">
+            {/* Submit Proof Buttons */}
+            <div className="space-y-2 pt-2">
               <button
                 onClick={() => handleProofSubmit('whatsapp')}
-                disabled={submittingProof}
-                className="flex items-center justify-center space-x-3 w-full py-3.5 px-4 rounded-xl font-medium transition-all duration-200 hover:opacity-90 hover:scale-[1.01] text-white disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-lg font-medium text-white hover:opacity-90 transition-opacity"
                 style={{ backgroundColor: '#25D366' }}
               >
-                {submittingProof ? <Loader2 className="w-5 h-5 animate-spin" /> : <MessageCircle className="w-5 h-5" />}
-                <span>{submittingProof ? 'Recording...' : 'Send Proof via WhatsApp'}</span>
+                <MessageCircle className="w-5 h-5" />
+                Send Proof via WhatsApp
               </button>
 
               <button
                 onClick={() => handleProofSubmit('email')}
-                disabled={submittingProof}
-                className="flex items-center justify-center space-x-3 w-full py-3.5 px-4 rounded-xl font-medium transition-all duration-200 hover:opacity-90 hover:scale-[1.01] border-2 text-gray-700 border-gray-200 hover:border-gray-300 bg-white disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-lg font-medium text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors"
               >
-                {submittingProof ? <Loader2 className="w-5 h-5 animate-spin" /> : <Mail className="w-5 h-5" />}
-                <span>{submittingProof ? 'Recording...' : 'Send Proof via Email'}</span>
+                <Mail className="w-5 h-5" />
+                Send Proof via Email
               </button>
             </div>
-
-            <p className="text-xs text-gray-400 text-center">Verification typically takes 5–30 minutes during business hours.</p>
           </div>
         </div>
       </div>
