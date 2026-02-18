@@ -9,10 +9,10 @@ import BalanceForm from "./BalanceForm"
 import CustomRateForm from "./CustomRateForm"
 import UserTable from "./UserTable"
 import UserStats from "./UserStats"
-import { 
-  fetchUsers, 
-  updateUser, 
-  deleteUser, 
+import {
+  fetchUsers,
+  updateUser,
+  deleteUser,
   changeUserStatus,
   generateUserApiKey,
   adjustUserBalance,
@@ -52,10 +52,10 @@ const ManageUsers = () => {
   } = context || {}
 
   // Default currency if not provided
-  const selectedCurrency = contextSelectedCurrency || { 
-    code: "NGN", 
-    symbol: "₦", 
-    rate: 1 
+  const selectedCurrency = contextSelectedCurrency || {
+    code: "NGN",
+    symbol: "₦",
+    rate: 1
   }
 
   // Fallback functions if not provided
@@ -82,74 +82,31 @@ const ManageUsers = () => {
   // Debounce search to avoid too many API calls
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (pagination.current_page === 1) {
-        loadUsers()
-      } else {
-        setPagination(prev => ({ ...prev, current_page: 1 }))
-      }
+      loadUsers(1)
     }, 500) // 500ms debounce
-    
+
     return () => clearTimeout(timer)
   }, [searchTerm, statusFilter])
 
-  // Fetch users on component mount and when pagination changes
-  useEffect(() => {
-    loadUsers()
-  }, [pagination.current_page])
-
-  const loadUsers = async () => {
+  const loadUsers = async (page = pagination.current_page) => {
     setIsLoading(true)
     try {
-      // Use AbortController for request cancellation
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
-
-      const response = await fetchUsers()
-      
-      clearTimeout(timeoutId)
-      
-      // Handle both paginated and non-paginated responses
-      if (response?.data) {
-        // Apply client-side filtering for search and status if backend doesn't support it
-        let filteredData = response.data
-        
-        if (searchTerm) {
-          const searchLower = searchTerm.toLowerCase()
-          filteredData = filteredData.filter(user => 
-            (user.first_name || user.firstname || "").toLowerCase().includes(searchLower) ||
-            (user.last_name || user.lastname || "").toLowerCase().includes(searchLower) ||
-            (user.username || "").toLowerCase().includes(searchLower) ||
-            (user.email || "").toLowerCase().includes(searchLower)
-          )
-        }
-        
-        if (statusFilter !== "All Status") {
-          filteredData = filteredData.filter(user => {
-            if (statusFilter === "Active") {
-              return user.status === "active" || user.status === 1
-            } else if (statusFilter === "Banned") {
-              return user.status === "banned" || user.status === 0
-            }
-            return true
-          })
-        }
-        
-        setUsers({ data: filteredData })
-        setPagination(prev => ({
-          ...prev,
-          current_page: response.current_page || 1,
-          last_page: response.last_page || 1,
-          total: filteredData.length,
-        }))
-      } else if (Array.isArray(response)) {
-        setUsers({ data: response })
-        setPagination(prev => ({
-          ...prev,
-          total: response.length,
-        }))
-      } else {
-        setUsers({ data: [] })
+      const params = {
+        page,
+        per_page: 15,
+        search: searchTerm || undefined,
+        status: statusFilter !== "All Status" ? statusFilter.toLowerCase() : undefined,
       }
+
+      const response = await fetchUsers(params)
+
+      setUsers({ data: Array.isArray(response.data) ? response.data : [] })
+      setPagination({
+        current_page: response.current_page || 1,
+        last_page: response.last_page || 1,
+        per_page: response.per_page || 15,
+        total: response.total || 0,
+      })
     } catch (error) {
       if (error.name === 'AbortError') {
         console.error("Request timeout")
@@ -205,7 +162,7 @@ const ManageUsers = () => {
           phone: formData.phone,
           address: formData.address,
         }
-        
+
         await updateUser(editingUser.id, updateData)
         toast.success("User updated successfully!")
         await loadUsers()
@@ -277,11 +234,11 @@ const ManageUsers = () => {
 
       // Convert status to backend format (0 = banned, 1 = active)
       const newStatus = user.status === "active" || user.status === 1 ? 0 : 1
-      
+
       await changeUserStatus(id, newStatus)
       toast.success(`User ${newStatus === 1 ? "activated" : "deactivated"} successfully!`)
       await loadUsers()
-      
+
       // Update selected user if it's the one being toggled
       if (selectedUser?.id === id) {
         const updatedUser = { ...selectedUser, status: newStatus === 1 ? "active" : "banned" }
@@ -333,11 +290,10 @@ const ManageUsers = () => {
           )
           toast.success(`Balance ${data.action === "add" ? "added" : "subtracted"} successfully!`)
           await loadUsers()
-          // Refresh selected user if it's the one being adjusted
+          // Refresh selected user from the reloaded list
           if (selectedUser?.id === data.userId) {
-            const updatedUser = await fetchUsers().then(res => 
-              res.data?.find(u => u.id === data.userId) || res.data?.data?.find(u => u.id === data.userId)
-            )
+            const updatedUsers = await fetchUsers({ search: data.userId.toString() })
+            const updatedUser = updatedUsers.data?.find(u => u.id === data.userId)
             if (updatedUser) setSelectedUser(updatedUser)
           }
         } catch (error) {
@@ -379,7 +335,7 @@ const ManageUsers = () => {
       // Store current admin session before impersonating
       const adminToken = localStorage.getItem('adminToken')
       const adminData = localStorage.getItem('adminData')
-      
+
       // Store admin info for return
       if (adminToken) {
         sessionStorage.setItem('adminToken_backup', adminToken)
@@ -387,18 +343,18 @@ const ManageUsers = () => {
       if (adminData) {
         sessionStorage.setItem('adminData_backup', adminData)
       }
-      
+
       // Login as user
       const response = await loginAsUser(userId)
-      
+
       if (response.success && response.token && response.user) {
         // Store user token and data
         localStorage.setItem('authToken', response.token)
         localStorage.setItem('userData', JSON.stringify(response.user))
         localStorage.setItem('isAdminImpersonating', 'true') // Flag to indicate impersonation
-        
+
         toast.success(`Logged in as ${response.user.first_name || response.user.firstname || response.user.username}`)
-        
+
         // Navigate to user dashboard
         window.location.href = '/dashboard'
       } else {
@@ -453,10 +409,10 @@ const ManageUsers = () => {
             onEdit={handleEdit}
             onToggleStatus={toggleUserStatus}
             showPasswordChange={false}
-            onTogglePasswordChange={() => {}}
-            onPasswordUpdate={() => {}}
+            onTogglePasswordChange={() => { }}
+            onPasswordUpdate={() => { }}
             passwordData={{ new_password: "", confirm_password: "" }}
-            onPasswordChange={() => {}}
+            onPasswordChange={() => { }}
             onActionSelect={(action, userData) => {
               if (action === "add_subtract_balance" || action === "send_email" || action === "custom_rate") {
                 setActiveUserAction(action)
@@ -582,7 +538,7 @@ const ManageUsers = () => {
           onViewDetails={handleViewDetails}
           onEdit={handleEdit}
           onToggleStatus={toggleUserStatus}
-          onSyncServices={() => {}}
+          onSyncServices={() => { }}
           onDelete={handleDelete}
           isLoading={isLoading}
           formatCurrency={formatUserBalance}
@@ -595,24 +551,55 @@ const ManageUsers = () => {
 
         {/* Pagination */}
         {pagination.last_page > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-6">
-            <button
-              onClick={() => setPagination(prev => ({ ...prev, current_page: prev.current_page - 1 }))}
-              disabled={pagination.current_page === 1 || isLoading}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-            >
-              Previous
-            </button>
-            <span className="px-4 py-2 text-sm text-gray-700">
-              Page {pagination.current_page} of {pagination.last_page}
-            </span>
-            <button
-              onClick={() => setPagination(prev => ({ ...prev, current_page: prev.current_page + 1 }))}
-              disabled={pagination.current_page >= pagination.last_page || isLoading}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-            >
-              Next
-            </button>
+          <div className="flex items-center justify-between px-4 py-4 bg-white rounded-xl shadow-sm border border-gray-100 mt-4">
+            <div>
+              <p className="text-sm text-gray-700">
+                Showing <span className="font-medium">{(pagination.current_page - 1) * pagination.per_page + 1}</span> to{' '}
+                <span className="font-medium">{Math.min(pagination.current_page * pagination.per_page, pagination.total)}</span> of{' '}
+                <span className="font-medium">{pagination.total}</span> users
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => loadUsers(pagination.current_page - 1)}
+                disabled={pagination.current_page === 1 || isLoading}
+                className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              >
+                Previous
+              </button>
+              {Array.from({ length: Math.min(5, pagination.last_page) }, (_, i) => {
+                let pageNum
+                if (pagination.last_page <= 5) {
+                  pageNum = i + 1
+                } else if (pagination.current_page <= 3) {
+                  pageNum = i + 1
+                } else if (pagination.current_page >= pagination.last_page - 2) {
+                  pageNum = pagination.last_page - 4 + i
+                } else {
+                  pageNum = pagination.current_page - 2 + i
+                }
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => loadUsers(pageNum)}
+                    disabled={isLoading}
+                    className={`px-4 py-2 border rounded-md text-sm font-medium ${pagination.current_page === pageNum
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'hover:bg-gray-100'
+                      }`}
+                  >
+                    {pageNum}
+                  </button>
+                )
+              })}
+              <button
+                onClick={() => loadUsers(pagination.current_page + 1)}
+                disabled={pagination.current_page >= pagination.last_page || isLoading}
+                className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>

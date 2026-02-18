@@ -73,9 +73,23 @@ export const setCustomRateForUser = async (userId, service, rate, type) => {
 
 
 
-export const fetchUsers = async () => {
-  const response = await api.get(`/admin/users`);
-  return response.data;
+export const fetchUsers = async (params = {}) => {
+  const cleanedParams = {};
+  Object.keys(params).forEach(key => {
+    if (params[key] !== undefined && params[key] !== '' && params[key] !== null) {
+      cleanedParams[key] = params[key];
+    }
+  });
+
+  const response = await api.get(`/admin/users`, { params: cleanedParams });
+  // Backend returns Laravel paginator directly: { data: [...], current_page, last_page, per_page, total }
+  return {
+    data: Array.isArray(response.data?.data) ? response.data.data : (Array.isArray(response.data) ? response.data : []),
+    current_page: response.data?.current_page || 1,
+    last_page: response.data?.last_page || 1,
+    per_page: response.data?.per_page || 15,
+    total: response.data?.total || 0
+  };
 };
 
 
@@ -263,9 +277,9 @@ export const updateTicketPriority = async (id, priority) => {
 // Reply to ticket (admin)
 export const replyToTicketAdmin = async (id, message, isInternal = false) => {
   try {
-    const response = await api.post(`/admin/tickets/${id}/reply`, { 
+    const response = await api.post(`/admin/tickets/${id}/reply`, {
       message,
-      is_internal: isInternal 
+      is_internal: isInternal
     });
     return response.data;
   } catch (error) {
@@ -293,11 +307,11 @@ export const fetchAllOrders = async (params = {}) => {
       }
     });
 
-    const response = await api.get('/admin/orders', { 
+    const response = await api.get('/admin/orders', {
       params: cleanedParams,
       validateStatus: (status) => status < 500
     });
-    
+
     return {
       data: response.data?.data || [],
       current_page: response.data?.current_page || 1,
@@ -351,18 +365,21 @@ export const fetchTransactions = async (params = {}) => {
       }
     });
 
-    const response = await api.get('/admin/transactions', { 
+    const response = await api.get('/admin/transactions', {
       params: cleanedParams,
       validateStatus: (status) => status < 500
     });
-    
-    // Ensure consistent response structure
+
+    // Backend wraps Laravel paginator in { data: paginator, message }
+    // So response.data.data is the paginator object which has .data (array), .current_page, etc.
+    const paginator = response.data?.data || {};
+
     return {
-      data: response.data?.data || [],
-      current_page: response.data?.current_page || 1,
-      last_page: response.data?.last_page || 1,
-      per_page: response.data?.per_page || 15,
-      total: response.data?.total || 0
+      data: Array.isArray(paginator?.data) ? paginator.data : (Array.isArray(paginator) ? paginator : []),
+      current_page: paginator?.current_page || 1,
+      last_page: paginator?.last_page || 1,
+      per_page: paginator?.per_page || 15,
+      total: paginator?.total || 0
     };
   } catch (error) {
     console.error('Error fetching transactions:', error);
@@ -493,7 +510,7 @@ export const getServicePriceStats = async (params = {}) => {
         cleanedParams[key] = params[key]
       }
     })
-    
+
     const response = await api.get('/admin/services/price-stats', { params: cleanedParams })
     return response.data
   } catch (error) {

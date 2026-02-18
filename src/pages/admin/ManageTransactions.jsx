@@ -42,10 +42,10 @@ const ManageTransactions = () => {
   } = context || {}
 
   // Default currency if not provided
-  const selectedCurrency = contextSelectedCurrency || { 
-    code: "NGN", 
-    symbol: "₦", 
-    rate: 1 
+  const selectedCurrency = contextSelectedCurrency || {
+    code: "NGN",
+    symbol: "₦",
+    rate: 1
   }
 
   // Fallback functions if not provided
@@ -87,39 +87,31 @@ const ManageTransactions = () => {
         status: statusFilter !== "All Status" ? statusFilter.toLowerCase() : undefined,
         type: typeFilter !== "All Types" ? typeFilter.toLowerCase() : undefined,
       }
-      
+
       // Remove undefined values
       Object.keys(params).forEach(key => {
         if (params[key] === undefined || params[key] === '') {
           delete params[key];
         }
       });
-      
+
       const response = await fetchTransactions(params)
-      
-      // Handle response structure
-      const transactionsData = Array.isArray(response?.data) 
-        ? response.data 
-        : Array.isArray(response)
-          ? response
-          : []
-      
-      setTransactions(transactionsData)
-      
-      // Handle pagination with fallbacks
+
+      setTransactions(Array.isArray(response.data) ? response.data : [])
+
       setPagination({
-        current_page: response?.current_page || page || 1,
-        last_page: response?.last_page || 1,
-        per_page: response?.per_page || 15,
-        total: response?.total || transactionsData.length,
+        current_page: response.current_page || 1,
+        last_page: response.last_page || 1,
+        per_page: response.per_page || 15,
+        total: response.total || 0,
       })
-      
+
       setError(null)
     } catch (err) {
       console.error('Error loading transactions:', err)
       const errorMsg = err?.response?.data?.message || err.message || "Failed to load transactions. Please try again."
       setError(errorMsg)
-      setTransactions([]) // Reset to empty array on error
+      setTransactions([])
     } finally {
       setIsLoading(false)
     }
@@ -130,7 +122,7 @@ const ManageTransactions = () => {
     const timer = setTimeout(() => {
       loadTransactions()
     }, 500)
-    
+
     return () => clearTimeout(timer)
   }, [searchTerm, statusFilter, typeFilter])
 
@@ -141,11 +133,6 @@ const ManageTransactions = () => {
     }, 5000)
     return () => clearTimeout(timer)
   }, [error, success])
-
-  // Initial load
-  useEffect(() => {
-    loadTransactions()
-  }, [])
 
   const [formData, setFormData] = useState({
     amount: 0,
@@ -192,7 +179,7 @@ const ManageTransactions = () => {
     e.preventDefault()
     try {
       setIsLoading(true)
-      
+
       if (editingTransaction) {
         const response = await updateTransaction(editingTransaction.id, formData)
         // Reload transactions to get updated data
@@ -201,7 +188,7 @@ const ManageTransactions = () => {
         setSuccess('Transaction updated successfully!')
         toast.success('Transaction updated successfully!')
       }
-      
+
       setFormData({
         amount: 0,
         charge: 0,
@@ -235,7 +222,7 @@ const ManageTransactions = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this transaction? This action cannot be undone.")) return
-    
+
     try {
       setIsLoading(true)
       await deleteTransaction(id)
@@ -347,19 +334,19 @@ const ManageTransactions = () => {
 
   const TransactionDetailsCard = ({ transaction }) => {
     if (!transaction) return null
-    
+
     return (
       <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl border border-blue-200 p-4 sm:p-6 mb-6">
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-lg font-bold text-gray-900">Transaction Details</h3>
-          <button 
+          <button
             onClick={() => setSelectedTransaction(null)}
             className="p-1 hover:bg-gray-200 rounded-full"
           >
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white p-4 rounded-lg border border-gray-200">
             <h4 className="font-medium text-gray-700 mb-3">Transaction Information</h4>
@@ -370,9 +357,8 @@ const ManageTransactions = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Type:</span>
-                <span className={`font-semibold ${
-                  transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
-                }`}>
+                <span className={`font-semibold ${transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
+                  }`}>
                   {transaction.transaction_type?.charAt(0).toUpperCase() + transaction.transaction_type?.slice(1)}
                 </span>
               </div>
@@ -388,13 +374,12 @@ const ManageTransactions = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Status:</span>
-                <span className={`px-2 py-1 rounded-full text-xs ${
-                  transaction.status === 'completed' 
-                    ? "bg-emerald-100 text-emerald-800" 
-                    : transaction.status === 'failed'
+                <span className={`px-2 py-1 rounded-full text-xs ${transaction.status === 'completed'
+                  ? "bg-emerald-100 text-emerald-800"
+                  : transaction.status === 'failed'
                     ? "bg-red-100 text-red-800"
                     : "bg-yellow-100 text-yellow-800"
-                }`}>
+                  }`}>
                   {transaction.status?.charAt(0).toUpperCase() + transaction.status?.slice(1)}
                 </span>
               </div>
@@ -404,7 +389,7 @@ const ManageTransactions = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white p-4 rounded-lg border border-gray-200">
             <h4 className="font-medium text-gray-700 mb-3">User Information</h4>
             <div className="space-y-2">
@@ -423,7 +408,7 @@ const ManageTransactions = () => {
             </div>
           </div>
         </div>
-        
+
         {transaction.description && (
           <div className="mt-4 bg-white p-4 rounded-lg border border-gray-200">
             <h4 className="font-medium text-gray-700 mb-2">Description</h4>
@@ -528,7 +513,7 @@ const ManageTransactions = () => {
               </select>
             </div>
 
-            <button 
+            <button
               onClick={() => loadTransactions()}
               className="w-full sm:w-auto px-6 py-2.5 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200 flex items-center justify-center gap-2 font-medium text-sm disabled:opacity-50"
               disabled={isLoading}
@@ -546,14 +531,14 @@ const ManageTransactions = () => {
               <h3 className="text-lg font-bold text-gray-900">
                 {editingTransaction ? "Edit Transaction" : "Create Transaction"}
               </h3>
-              <button 
+              <button
                 onClick={() => setEditingTransaction(null)}
                 className="p-1 hover:bg-gray-200 rounded-full"
               >
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
-            
+
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
@@ -568,7 +553,7 @@ const ManageTransactions = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Fee</label>
                   <input
@@ -581,7 +566,7 @@ const ManageTransactions = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                   <select
@@ -596,7 +581,7 @@ const ManageTransactions = () => {
                     <option value="debit">Debit</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                   <select
@@ -612,7 +597,7 @@ const ManageTransactions = () => {
                   </select>
                 </div>
               </div>
-              
+
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea
@@ -623,7 +608,7 @@ const ManageTransactions = () => {
                   rows={3}
                 />
               </div>
-              
+
               <div className="flex justify-end gap-3">
                 <button
                   type="button"
@@ -658,7 +643,7 @@ const ManageTransactions = () => {
           <div className="block sm:hidden">
             <div className="p-4 border-b border-gray-100 bg-indigo-600">
               <h3 className="text-white font-semibold">
-                Transactions ({transactions.length})
+                Transactions ({pagination.total})
               </h3>
             </div>
             <div className="divide-y divide-gray-100">
@@ -679,17 +664,16 @@ const ManageTransactions = () => {
                           {formatDate(transaction.created_at)}
                         </p>
                       </div>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        transaction.status === 'completed' 
-                          ? "bg-emerald-100 text-emerald-800" 
-                          : transaction.status === 'failed'
+                      <span className={`px-2 py-1 rounded-full text-xs ${transaction.status === 'completed'
+                        ? "bg-emerald-100 text-emerald-800"
+                        : transaction.status === 'failed'
                           ? "bg-red-100 text-red-800"
                           : "bg-yellow-100 text-yellow-800"
-                      }`}>
+                        }`}>
                         {transaction.status?.charAt(0).toUpperCase() + transaction.status?.slice(1)}
                       </span>
                     </div>
-                    
+
                     <div className="flex justify-between items-center mb-2">
                       <div>
                         <p className="text-sm text-gray-700">
@@ -699,14 +683,13 @@ const ManageTransactions = () => {
                           {transaction.user?.email || 'N/A'}
                         </p>
                       </div>
-                      <p className={`font-bold ${
-                        transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
-                      }`}>
+                      <p className={`font-bold ${transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
+                        }`}>
                         {transaction.transaction_type === 'credit' ? '+' : '-'}
                         {formatPrice(transaction.amount)}
                       </p>
                     </div>
-                    
+
                     <div className="flex justify-between items-center">
                       <p className="text-xs text-gray-500">
                         Fee: {formatPrice(transaction.charge)}
@@ -767,9 +750,8 @@ const ManageTransactions = () => {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex flex-col">
-                          <span className={`text-sm font-bold ${
-                            transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
-                          }`}>
+                          <span className={`text-sm font-bold ${transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
+                            }`}>
                             {transaction.transaction_type === 'credit' ? '+' : '-'}
                             {formatPrice(transaction.amount)}
                           </span>
@@ -779,21 +761,19 @@ const ManageTransactions = () => {
                         </div>
                       </td>
                       <td className="px-4 py-4">
-                        <span className={`text-sm font-semibold ${
-                          transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
-                        }`}>
+                        <span className={`text-sm font-semibold ${transaction.transaction_type === 'credit' ? 'text-green-600' : 'text-red-600'
+                          }`}>
                           {transaction.transaction_type?.charAt(0).toUpperCase() + transaction.transaction_type?.slice(1)}
                         </span>
                       </td>
                       <td className="px-4 py-4">
                         <span
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-                            transaction.status === 'completed' 
-                              ? "bg-emerald-100 text-emerald-800" 
-                              : transaction.status === 'failed'
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${transaction.status === 'completed'
+                            ? "bg-emerald-100 text-emerald-800"
+                            : transaction.status === 'failed'
                               ? "bg-red-100 text-red-800"
                               : "bg-yellow-100 text-yellow-800"
-                          }`}
+                            }`}
                         >
                           {transaction.status?.charAt(0).toUpperCase() + transaction.status?.slice(1)}
                         </span>
@@ -848,11 +828,10 @@ const ManageTransactions = () => {
                     <button
                       key={pageNum}
                       onClick={() => loadTransactions(pageNum)}
-                      className={`px-4 py-2 border rounded-md ${
-                        pagination.current_page === pageNum
-                          ? 'bg-blue-600 text-white border-blue-600'
-                          : 'hover:bg-gray-100'
-                      }`}
+                      className={`px-4 py-2 border rounded-md ${pagination.current_page === pageNum
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'hover:bg-gray-100'
+                        }`}
                     >
                       {pageNum}
                     </button>
@@ -932,7 +911,7 @@ const ManageTransactions = () => {
                 </div>
                 <div>
                   <p className="text-xs sm:text-sm text-gray-500">Total Fees</p>
-                
+
                   <p className="text-lg sm:text-xl font-bold text-gray-900">
                     {formatPrice(transactions.reduce((sum, t) => {
                       const convertedCharge = convertToSelectedCurrency(parseFloat(t.charge || 0), "NGN")
