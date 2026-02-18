@@ -19,11 +19,13 @@ const TransactionCallback = () => {
         const status = searchParams.get("status");
         const txRef = searchParams.get("tx_ref");
         const transactionId = searchParams.get("transaction_id");
+        const koraReference = searchParams.get("reference");
 
-        console.log("Payment callback received:", { status, txRef, transactionId });
+        console.log("Payment callback received:", { status, txRef, transactionId, koraReference });
 
         // Handle all statuses in a case-insensitive way
-        const normalizedStatus = status ? status.toLowerCase() : '';
+        // Kora redirects without a status param, so default to 'successful'
+        const normalizedStatus = status ? status.toLowerCase() : 'successful';
 
         // Handle cancelled payments immediately
         if (normalizedStatus === "cancelled") {
@@ -41,17 +43,20 @@ const TransactionCallback = () => {
           return;
         }
 
-        if (!txRef && !transactionId) {
+        // Use either transaction_id, tx_ref, or kora reference
+        const reference = txRef || transactionId || koraReference;
+
+        if (!reference) {
           throw new Error("Missing transaction reference");
         }
 
         // Handle successful payments (both 'successful' and 'completed')
-        if (normalizedStatus === "successful" || normalizedStatus === "completed") {
-          const response = await verifyPayment({ 
-            transaction_id: txRef,
+        if (normalizedStatus === "successful" || normalizedStatus === "completed" || normalizedStatus === "success") {
+          const response = await verifyPayment({
+            transaction_id: reference,
             status: normalizedStatus
           });
-          
+
           if (!response.success) {
             throw new Error(response.message || "Payment verification failed");
           }
@@ -98,7 +103,7 @@ const TransactionCallback = () => {
           <p className="text-gray-600 mb-6">
             Thank you for your payment. Your account has been credited.
           </p>
-          
+
           {transaction && (
             <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
               <div className="flex justify-between mb-2">
@@ -122,7 +127,7 @@ const TransactionCallback = () => {
               </div>
             </div>
           )}
-          
+
           <button
             onClick={() => navigate("/dashboard")}
             className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors"
@@ -146,7 +151,7 @@ const TransactionCallback = () => {
           <p className="text-gray-600 mb-6">
             You cancelled the payment process. No funds were deducted from your account.
           </p>
-          
+
           <div className="flex space-x-3">
             <button
               onClick={() => navigate("/dashboard/add-funds")}
@@ -178,7 +183,7 @@ const TransactionCallback = () => {
           <p className="text-gray-600 mb-6">
             Your payment was not completed. Please try again.
           </p>
-          
+
           <div className="flex space-x-3">
             <button
               onClick={() => navigate("/dashboard/add-funds")}
@@ -209,7 +214,7 @@ const TransactionCallback = () => {
         <p className="text-gray-600 mb-6">
           We couldn't determine the status of your payment. Please check your transaction history or contact support.
         </p>
-        
+
         <div className="flex space-x-3">
           <button
             onClick={() => navigate("/dashboard/support")}

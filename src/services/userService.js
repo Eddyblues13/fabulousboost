@@ -1,28 +1,37 @@
 import api from "./api";
 export const fetchUserData = async () => {
-     const response = await api.get('/user');
-     return response;
+  const response = await api.get('/user');
+  return response;
 }
 
 
 export const fetchAllUpdates = async () => {
-    try {
-        const response = await api.get("/updates");
-        // Handle both wrapped and direct data responses
-        return {
-            data: response.data?.data || response.data || []
-        };
-    } catch (error) {
-        console.error('Error fetching updates:', error);
-        return {
-            data: []
-        };
-    }
+  try {
+    const response = await api.get("/updates");
+    // Handle both wrapped and direct data responses
+    return {
+      data: response.data?.data || response.data || []
+    };
+  } catch (error) {
+    console.error('Error fetching updates:', error);
+    return {
+      data: []
+    };
+  }
 }
 
 export const initiatePayment = async (paymentData) => {
   try {
     const response = await api.post('/payment/initiate', paymentData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const initiateManualPayment = async (paymentData) => {
+  try {
+    const response = await api.post('/payment/manual', paymentData);
     return response.data;
   } catch (error) {
     throw error;
@@ -42,8 +51,8 @@ export const verifyPayment = async (paymentData) => {
 }
 
 export const paymentHistory = async () => {
-    const response = await api.get("/payment/history");
-     return response;
+  const response = await api.get("/payment/history");
+  return response;
 }
 
 

@@ -19,23 +19,25 @@ const PaymentCallback = () => {
       try {
         const transactionId = searchParams.get('transaction_id')
         const txRef = searchParams.get('tx_ref')
+        const koraReference = searchParams.get('reference')
         const statusParam = searchParams.get('status')
 
         console.log('🔍 Payment Callback - URL Parameters:', {
           transactionId,
-          txRef, 
+          txRef,
+          koraReference,
           statusParam,
           allParams: Object.fromEntries(searchParams.entries())
         })
 
-        setDebugInfo(`Transaction ID: ${transactionId}, TX_REF: ${txRef}, Status: ${statusParam}`)
+        setDebugInfo(`Transaction ID: ${transactionId}, TX_REF: ${txRef}, Kora Ref: ${koraReference}, Status: ${statusParam}`)
 
-        if (!transactionId && !txRef) {
+        if (!transactionId && !txRef && !koraReference) {
           throw new Error('No transaction reference found in URL parameters')
         }
 
-        // Use either transaction_id or tx_ref
-        const reference = transactionId || txRef
+        // Use either transaction_id, tx_ref, or kora reference
+        const reference = transactionId || txRef || koraReference
 
         console.log('🔄 Verifying payment with reference:', reference)
 
@@ -50,7 +52,7 @@ const PaymentCallback = () => {
           setStatus('success')
           setMessage('Payment completed successfully!')
           toast.success('Payment completed successfully!')
-          
+
           setTimeout(() => {
             navigate('/add-funds')
           }, 3000)
@@ -63,7 +65,7 @@ const PaymentCallback = () => {
         const errorMessage = error.response?.data?.message || error.message || 'Payment verification failed'
         setMessage(errorMessage)
         toast.error(errorMessage)
-        
+
         // Show detailed error for debugging
         setDebugInfo(prev => prev + ` | Error: ${errorMessage}`)
       }
@@ -74,7 +76,7 @@ const PaymentCallback = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div 
+      <div
         className="w-full max-w-md rounded-2xl p-8 shadow-lg border border-white/50 backdrop-blur-sm text-center"
         style={{ backgroundColor: CSS_COLORS.background.card }}
       >

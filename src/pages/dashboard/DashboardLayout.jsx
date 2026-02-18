@@ -6,6 +6,7 @@ import { getUserFromLocalStorage } from "../../utils/helpers";
 import { CSS_COLORS } from "../../components/constant/colors";
 import toast from "react-hot-toast";
 import { fetchCurrencies } from "../../services/services";
+import WhatsAppWidget from "../../components/WhatsAppWidget";
 
 // Currency utility functions
 const convertAmount = (amount, fromRate, toRate) => {
@@ -23,10 +24,10 @@ const formatCurrency = (amount, currency) => {
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [selectedCurrency, setSelectedCurrency] = useState({ 
-    code: "NGN", 
-    symbol: "₦", 
-    rate: 1 
+  const [selectedCurrency, setSelectedCurrency] = useState({
+    code: "NGN",
+    symbol: "₦",
+    rate: 1
   });
   const [currencies, setCurrencies] = useState([]);
 
@@ -55,11 +56,11 @@ const DashboardLayout = () => {
   // Currency conversion function
   const convertToSelectedCurrency = (amount, sourceCurrency = "NGN") => {
     if (!amount || !selectedCurrency?.rate) return 0;
-    
+
     const sourceCurrencyObj = currencies.find(c => c.code === sourceCurrency) || { rate: 1 };
     const sourceRate = sourceCurrencyObj.rate || 1;
     const targetRate = selectedCurrency.rate || 1;
-    
+
     return convertAmount(amount, sourceRate, targetRate);
   };
 
@@ -132,6 +133,8 @@ const DashboardLayout = () => {
           </div>
         </main>
       </div>
+
+      <WhatsAppWidget />
     </div>
   );
 };

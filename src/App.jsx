@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/NavBar';
 import Footer from './components/Footer';
+import WhatsAppWidget from './components/WhatsAppWidget';
 import HomePage from './pages/home/HomePage';
 import SignUpPage from './pages/home/SignUpPage';
 import ServicesPage from './pages/home/ServicesPage';
@@ -58,6 +59,7 @@ const Layout = ({ children }) => {
       {showLayout && <Navbar />}
       {children}
       {showLayout && <Footer />}
+      {showLayout && <WhatsAppWidget />}
     </>
   );
 };
@@ -65,7 +67,7 @@ const Layout = ({ children }) => {
 
 const App = () => {
   return (
-    <Router> 
+    <Router>
       <Toaster position="top-right" reverseOrder={false} />
       <Layout>
         <Routes>
@@ -76,10 +78,10 @@ const App = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/payment/callback" element={<TransactionCallback />} />
           <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
           >
             <Route index element={<NewOrder />} />
             <Route path="updates" element={<Updates />} />
@@ -97,10 +99,10 @@ const App = () => {
             <Route path="notifications" element={<GeneralNotification />} />
             <Route path="account" element={<Account />} />
 
-           
-            
 
-          </Route> 
+
+
+          </Route>
           <Route path="/admin" element={
             <AdminRoutes>
               <AdminLayout />
@@ -125,9 +127,9 @@ const App = () => {
             <Route path="users/:id/send-email" element={<SendEmailForm />} />
             <Route path="send-mail" element={<SendMailAll />} />
             <Route path="bulk-price-increase" element={<BulkPriceIncrease />} />
-             
+
           </Route>
-        
+
         </Routes>
       </Layout>
     </Router>
