@@ -25,7 +25,6 @@ import Dashboard from './pages/admin/Dashboard';
 import ManageApiProviders from './pages/admin/ManageApiProviders';
 import ManageUsers from './pages/admin/ManageUsers';
 import AdminUserView from "./pages/admin/AdminUserView";
-import AdminUserEdit from "./pages/admin/AdminUserEdit";
 import AddSubtractBalance from "./pages/admin/AddSubtractBalance";
 import ManageUserOrders from "./pages/admin/ManageUserOrders";
 import ManageUserTransactions from "./pages/admin/ManageUserTransactions";
@@ -120,7 +119,6 @@ const App = () => {
             <Route path="updates" element={<AdminUpdates />} />
             <Route path="settings" element={<AdminSettings />} />
             <Route path="users/:id/View" element={<AdminUserView />} />
-            <Route path="users/:id/Edit" element={<AdminUserEdit />} />
             <Route path="users/:id/balance" element={<AddSubtractBalance />} />
             <Route path="users/:id/orders" element={<ManageUserOrders />} />
             <Route path="users/:id/transactions" element={<ManageUserTransactions />} />

@@ -21,7 +21,6 @@ import {
   Send,
   LogIn,
   History,
-  Edit3,
   Power
 } from "lucide-react"
 import { useState } from "react"
@@ -33,7 +32,6 @@ const UserDetailsCard = ({
   user, 
   onClose,
   onCopyApiKey,
-  onEdit,
   onToggleStatus,
   showPasswordChange,
   onTogglePasswordChange,
@@ -74,20 +72,15 @@ const UserDetailsCard = ({
     setModalData(null)
   }
 
-  const handleEdit = (user) => {
-    setCurrentModal('edit_user')
-    setModalData(user)
-  }
-
   const handleToggleStatus = (userId) => {
     onToggleStatus(userId)
   }
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl border border-purple-200 p-4 sm:p-6 mb-6">
+    <div className="bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl border border-purple-200 p-3 sm:p-6 mb-6 overflow-hidden">
       {/* Header section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-        <div className="flex items-center gap-4 mb-4 sm:mb-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <div className="relative">
             <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
               {user.avatar ? (
@@ -105,20 +98,20 @@ const UserDetailsCard = ({
             </div>
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+            <h2 className="text-lg sm:text-2xl font-bold text-gray-900 truncate">
               {user.first_name} {user.last_name}
             </h2>
-            <p className="text-purple-600 font-medium">@{user.username}</p>
-            <p className="text-sm text-gray-600">Joined {formatDate(user.created_at)}</p>
+            <p className="text-purple-600 font-medium text-sm sm:text-base truncate">@{user.username}</p>
+            <p className="text-xs sm:text-sm text-gray-600">Joined {formatDate(user.created_at)}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <button
             onClick={onCopyApiKey}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 flex items-center gap-2 text-sm font-medium"
+            className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 flex items-center gap-2 text-xs sm:text-sm font-medium"
           >
             <Key className="w-4 h-4" />
-            Generate Key
+            <span className="hidden sm:inline">Generate</span> Key
           </button>
           <button
             onClick={onClose}
@@ -130,10 +123,10 @@ const UserDetailsCard = ({
       </div>
 
       {/* API Key Section */}
-      <div className="bg-white rounded-lg p-4 border border-purple-100 mb-6">
+      <div className="bg-white rounded-lg p-3 sm:p-4 border border-purple-100 mb-6">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-            <Key className="w-5 h-5 text-purple-600" />
+          <h3 className="font-semibold text-gray-900 flex items-center gap-2 text-sm sm:text-base">
+            <Key className="w-4 sm:w-5 h-4 sm:h-5 text-purple-600" />
             API KEY
           </h3>
           <button
@@ -143,7 +136,7 @@ const UserDetailsCard = ({
             <Copy className="w-4 h-4" />
           </button>
         </div>
-        <div className="bg-gray-50 rounded-lg p-3 font-mono text-sm text-gray-800 break-all">
+        <div className="bg-gray-50 rounded-lg p-2 sm:p-3 font-mono text-xs sm:text-sm text-gray-800 break-all">
           {user.api_key || user.api_token || "No API key generated yet"}
         </div>
       </div>
@@ -152,7 +145,6 @@ const UserDetailsCard = ({
       <UserActions 
         user={user} 
         onActionSelect={onActionSelect || handleActionSelect}
-        onEdit={onEdit}
         onToggleStatus={onToggleStatus}
       />
 
@@ -234,25 +226,25 @@ const UserDetailsCard = ({
       </div>
 
       {/* Status Toggles */}
-      <div className="bg-white rounded-lg p-4 border border-purple-100 mb-6">
-        <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+      <div className="bg-white rounded-lg p-3 sm:p-4 border border-purple-100 mb-6">
+        <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 text-sm sm:text-base">
           <Shield className="w-5 h-5 text-purple-600" />
           Account Status & Security
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="text-center">
-            <p className="text-sm text-gray-600 mb-2">Status</p>
+            <p className="text-xs sm:text-sm text-gray-600 mb-2">Status</p>
             <div className="flex justify-center">
               <div className="flex bg-gray-100 rounded-full p-1">
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     user.status === "active" ? "bg-green-500 text-white" : "text-gray-600"
                   }`}
                 >
                   Active
                 </button>
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     user.status === "banned" ? "bg-red-500 text-white" : "text-gray-600"
                   }`}
                 >
@@ -263,18 +255,18 @@ const UserDetailsCard = ({
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600 mb-2">Email Verification</p>
+            <p className="text-xs sm:text-sm text-gray-600 mb-2">Email Verification</p>
             <div className="flex justify-center">
               <div className="flex bg-gray-100 rounded-full p-1">
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     user.email_verified ? "bg-blue-500 text-white" : "text-gray-600"
                   }`}
                 >
                   Verified
                 </button>
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     !user.email_verified ? "bg-gray-500 text-white" : "text-gray-600"
                   }`}
                 >
@@ -285,18 +277,18 @@ const UserDetailsCard = ({
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600 mb-2">SMS Verification</p>
+            <p className="text-xs sm:text-sm text-gray-600 mb-2">SMS Verification</p>
             <div className="flex justify-center">
               <div className="flex bg-gray-100 rounded-full p-1">
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     user.sms_verified ? "bg-blue-500 text-white" : "text-gray-600"
                   }`}
                 >
                   Verified
                 </button>
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     !user.sms_verified ? "bg-gray-500 text-white" : "text-gray-600"
                   }`}
                 >
@@ -307,18 +299,18 @@ const UserDetailsCard = ({
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600 mb-2">2FA Security</p>
+            <p className="text-xs sm:text-sm text-gray-600 mb-2">2FA Security</p>
             <div className="flex justify-center">
               <div className="flex bg-gray-100 rounded-full p-1">
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     user.two_factor_enabled ? "bg-green-500 text-white" : "text-gray-600"
                   }`}
                 >
                   ON
                 </button>
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-colors duration-200 ${
                     !user.two_factor_enabled ? "bg-red-500 text-white" : "text-gray-600"
                   }`}
                 >
@@ -331,10 +323,10 @@ const UserDetailsCard = ({
       </div>
 
       {/* Password Change Section */}
-      <div className="bg-white rounded-lg p-4 border border-purple-100">
+      <div className="bg-white rounded-lg p-3 sm:p-4 border border-purple-100">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-            <Lock className="w-5 h-5 text-red-600" />
+          <h3 className="font-semibold text-gray-900 flex items-center gap-2 text-sm sm:text-base">
+            <Lock className="w-4 sm:w-5 h-4 sm:h-5 text-red-600" />
             Password Change
           </h3>
           <button
@@ -441,17 +433,6 @@ const UserDetailsCard = ({
           user={modalData} 
           onClose={closeModal} 
           onSuccess={closeModal}
-        />
-      )}
-
-      {currentModal === 'edit_user' && (
-        <EditUserModal 
-          user={modalData} 
-          onClose={closeModal} 
-          onSuccess={() => {
-            closeModal()
-            // You might want to refresh user data here
-          }}
         />
       )}
     </div>

@@ -135,6 +135,21 @@ const OrderHistory = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, sortBy, sortOrder])
 
+  // Auto-refresh orders every 30 seconds if there are active orders
+  useEffect(() => {
+    const hasActiveOrders = orders.some(o =>
+      ['processing', 'in-progress', 'pending', 'partial'].includes(o.status?.toLowerCase())
+    )
+    if (!hasActiveOrders) return
+
+    const interval = setInterval(() => {
+      fetchOrders(1, { replace: true })
+    }, 30000)
+
+    return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orders])
+
   // Setup intersection observer for infinite scroll
   useEffect(() => {
     if (!sentinelRef.current) return

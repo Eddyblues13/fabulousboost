@@ -347,7 +347,7 @@ const NewOrder = () => {
       return
     }
 
-    if (quantity < selectedService.min_amount || quantity > selectedService.max_amount) {
+    if (Number(quantity) < selectedService.min_amount || Number(quantity) > selectedService.max_amount) {
       toast.error(`Quantity must be between ${selectedService.min_amount} and ${selectedService.max_amount}`)
       return
     }
@@ -399,9 +399,23 @@ const NewOrder = () => {
       let errorMessage = "Failed to submit order"
       let showDetailedError = false
 
+      // Get response data from either direct response or enhanced error
+      const responseData = error.response?.data || error.responseData
+
+      // Auto-update service min/max if backend returned corrected values
+      if (responseData && selectedService) {
+        if (responseData.min_amount && responseData.min_amount > selectedService.min_amount) {
+          setSelectedService(prev => ({ ...prev, min_amount: responseData.min_amount }))
+          setQuantity(responseData.min_amount.toString())
+        }
+        if (responseData.max_amount && responseData.max_amount < selectedService.max_amount) {
+          setSelectedService(prev => ({ ...prev, max_amount: responseData.max_amount }))
+        }
+      }
+
       // Enhanced error handling for different error types
-      if (error.response?.data) {
-        const serverError = error.response.data
+      if (responseData) {
+        const serverError = responseData
 
         // Handle specific error messages from backend
         if (serverError.message) {

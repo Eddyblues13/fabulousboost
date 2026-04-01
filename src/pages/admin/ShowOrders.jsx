@@ -403,7 +403,7 @@ const ShowOrders = () => {
           <span className="text-gray-400 text-sm">—</span>
         )}
       </div>
-      <div className="col-span-2">
+      <div className="col-span-1">
         {hasValue(order.link) ? (
           <div className="flex items-center gap-2">
             <a
@@ -413,7 +413,7 @@ const ShowOrders = () => {
               className="text-blue-600 hover:underline truncate text-sm flex-1"
               title={order.link}
             >
-              {order.link.length > 40 ? `${order.link.substring(0, 40)}...` : order.link}
+              {order.link.length > 25 ? `${order.link.substring(0, 25)}...` : order.link}
             </a>
             <button
               onClick={() => copyToClipboard(order.link)}
@@ -608,11 +608,11 @@ const ShowOrders = () => {
                   <div className="col-span-2">Date</div>
                   <div className="col-span-2">Service</div>
                   <div className="col-span-2">User</div>
-                  <div className="col-span-2">Link</div>
+                  <div className="col-span-1">Link</div>
                   <div className="col-span-1">Price</div>
                   <div className="col-span-1">Qty</div>
                   <div className="col-span-1">Status</div>
-                  <div className="col-span-1">Actions</div>
+                  <div className="col-span-1 text-right">Actions</div>
                 </div>
               </div>
               <div className="divide-y divide-gray-100">
@@ -747,11 +747,12 @@ const EditOrderModal = ({ order, onClose, onSave, onStatusUpdate, formatPrice, h
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
-                  {statusOptions.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
+                  <option value="processing">Processing</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                  <option value="partial">Partial</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="refunded">Refunded</option>
                 </select>
               </div>
               <div>

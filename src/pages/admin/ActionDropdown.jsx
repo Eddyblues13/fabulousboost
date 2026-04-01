@@ -34,11 +34,11 @@ const ActionDropdown = ({
   }; 
 
   const handleEdit = () => {
-    // Use onEdit if provided, otherwise navigate
+    // Use onEdit if provided, otherwise navigate to view
     if (onEdit) {
       onEdit(user);
     } else {
-      navigate(`/admin/users/${user.id}/Edit`);
+      navigate(`/admin/users/${user.id}/View`);
     }
     onToggle();
   };
