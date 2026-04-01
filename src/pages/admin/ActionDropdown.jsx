@@ -2,7 +2,6 @@
 
 import {
   Eye,
-  Edit3,
   Power,
   RefreshCw,
   Trash2,
@@ -15,7 +14,6 @@ const ActionDropdown = ({
   isOpen,
   onToggle,
   onViewDetails,
-  onEdit,
   onToggleStatus,
   onSyncServices,
   onDelete,
@@ -32,16 +30,6 @@ const ActionDropdown = ({
     }
     onToggle();
   }; 
-
-  const handleEdit = () => {
-    // Use onEdit if provided, otherwise navigate to view
-    if (onEdit) {
-      onEdit(user);
-    } else {
-      navigate(`/admin/users/${user.id}/View`);
-    }
-    onToggle();
-  };
 
   return (
     <div className="relative">
@@ -80,17 +68,6 @@ const ActionDropdown = ({
               >
                 <Eye className="w-4 h-4 text-green-600" />
                 <span>View</span>
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleEdit();
-                }}
-                className="px-3 py-2 hover:bg-gray-50 flex flex-col items-center gap-1 text-sm font-medium text-gray-700 transition-colors duration-200 rounded-lg"
-                style={{ minWidth: "100px" }}
-              >
-                <Edit3 className="w-4 h-4 text-blue-600" />
-                <span>Edit</span>
               </button>
               <button
                 onClick={(e) => {

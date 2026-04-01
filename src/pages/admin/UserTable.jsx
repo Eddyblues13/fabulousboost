@@ -9,7 +9,8 @@ import {
   CheckCircle,
   Smartphone,
   Shield,
-  Mail  
+  Mail,
+  Eye
 } from "lucide-react"
 import ActionDropdown from "./ActionDropdown"
 
@@ -17,7 +18,6 @@ const UserTable = ({
   users,
   selectedUser,
   onViewDetails,
-  onEdit,
   onToggleStatus,
   onSyncServices,
   onDelete,
@@ -77,18 +77,13 @@ const UserTable = ({
                       </div>
                     </div>
                   </div>
-                  <ActionDropdown
-                    user={user}
-                    isOpen={activeDropdownUserId === user.id}
-                    onToggle={() => {
-                      setActiveDropdownUserId(activeDropdownUserId === user.id ? null : user.id)
-                    }}
-                    onViewDetails={onViewDetails}
-                    onEdit={onEdit}
-                    onToggleStatus={onToggleStatus}
-                    onDelete={onDelete}
-                    isLoading={isLoading}
-                  />
+                  <button
+                    onClick={() => onViewDetails(user)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors duration-200"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    View
+                  </button>
                 </div>
               </div>
             ))
@@ -175,7 +170,6 @@ const UserTable = ({
                         setActiveDropdownUserId(activeDropdownUserId === user.id ? null : user.id)
                       }}
                       onViewDetails={onViewDetails}
-                      onEdit={onEdit}
                       onToggleStatus={onToggleStatus}
                       onDelete={onDelete}
                       isLoading={isLoading}
