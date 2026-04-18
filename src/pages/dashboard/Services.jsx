@@ -97,6 +97,10 @@ const Services = () => {
   }
 
   const filteredServices = [...newServices, ...recommendedServices].filter((service) => {
+    // Hide "NO REFILL" services (handles Unicode bold/italic characters too)
+    const normalizedTitle = (service.service_title || '').normalize('NFKD').toLowerCase()
+    if (normalizedTitle.includes('no refill')) return false
+
     const matchesSearch = service.service_title?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false
     let matchesCategory = true
     

@@ -39,6 +39,15 @@ import PlatformGrid from "./PlatformGrid"
 import OrderStatusAlert from "./OrderStatusAlert"
 import BalanceWarning from "./BalanceWarning"
 
+// Helper to filter out "NO REFILL" services (handles Unicode bold/italic characters too)
+const isNoRefillService = (service) => {
+  const title = service?.service_title || service?.name || ''
+  // Normalize Unicode bold/italic characters to ASCII for comparison
+  const normalized = title.normalize('NFKD').toLowerCase()
+  return normalized.includes('no refill')
+}
+const filterNoRefillServices = (services) => services.filter(s => !isNoRefillService(s))
+
 // Custom debounce hook
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -185,7 +194,7 @@ const NewOrder = () => {
       try {
         setLoadingServices(true)
         const response = await fetchSmmServices(serviceCategory.id.toString())
-        const categoryServices = response.data.data
+        const categoryServices = filterNoRefillServices(response.data.data)
         setServices(categoryServices)
 
         // Find the exact service from the category services
@@ -301,7 +310,7 @@ const NewOrder = () => {
             category: service.category || { id: service.category_id }
           }))
 
-          setSearchResults(resultsWithCategoryId)
+          setSearchResults(filterNoRefillServices(resultsWithCategoryId))
         } catch (error) {
           console.error('Search API error:', error)
           // Fallback to client-side search if API fails
@@ -334,7 +343,7 @@ const NewOrder = () => {
             )
           )
         })
-        setSearchResults(results.slice(0, 30))
+        setSearchResults(filterNoRefillServices(results).slice(0, 30))
       }
     }
 
@@ -563,7 +572,7 @@ const NewOrder = () => {
       try {
         setLoadingServices(true)
         const response = await fetchSmmServices(selectedCategory.id.toString())
-        const srv = response.data.data
+        const srv = filterNoRefillServices(response.data.data)
         setServices(srv)
         // Only set selected service if it's not already set or if it doesn't belong to current category
         if (!selectedService || selectedService.category !== selectedCategory.id) {
@@ -614,7 +623,7 @@ const NewOrder = () => {
           }
 
           console.log("Total essential services loaded:", essentialServices.length)
-          setAllServices(essentialServices)
+          setAllServices(filterNoRefillServices(essentialServices))
         } catch (err) {
           console.error("Error loading essential services:", err)
         } finally {
