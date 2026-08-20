@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { CreditCard, Bitcoin, ChevronDown, Plus, History, Clock, Loader2, Banknote, MessageCircle, Copy, CheckCircle2, X, Mail, Phone } from "lucide-react"
+import { CreditCard, Bitcoin, ChevronDown, Plus, History, Clock, Loader2, Phone } from "lucide-react"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
-import { fetchUserData, initiatePayment, initiateManualPayment, paymentHistory } from "../../services/userService"
+import { fetchUserData, initiatePayment, paymentHistory } from "../../services/userService"
 import { CSS_COLORS } from "../../components/constant/colors"
 
 const AddFunds = () => {
@@ -18,24 +18,6 @@ const AddFunds = () => {
   const [transactionHistory, setTransactionHistory] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [isFetchingData, setIsFetchingData] = useState(true)
-  const [showOpayModal, setShowOpayModal] = useState(false)
-  const [copiedField, setCopiedField] = useState(null)
-  const [submittingProof, setSubmittingProof] = useState(false)
-
-  const opayDetails = {
-    bankName: "OPay",
-    accountName: "FabulousBoost",
-    accountNumber: "8108905252",
-    whatsapp: "+08108905252",
-    email: "eddyblues13@gmail.com",
-  }
-
-  const copyToClipboard = (text, field) => {
-    navigator.clipboard.writeText(text)
-    setCopiedField(field)
-    toast.success("Copied to clipboard!")
-    setTimeout(() => setCopiedField(null), 2000)
-  }
 
   const paymentMethods = [
     // {
@@ -53,14 +35,6 @@ const AddFunds = () => {
       icon: <CreditCard className="w-5 h-5" style={{ color: CSS_COLORS.primary }} />,
       minAmount: 100,
       supportedCurrencies: ["NGN", "KES", "GHS", "XAF", "XOF", "EGP", "TZS", "ZAR"],
-    },
-    {
-      id: "opay_manual",
-      name: "OPay (Bank Transfer)",
-      description: "Transfer directly to our OPay account. Submit proof of payment via WhatsApp or email.",
-      icon: <Banknote className="w-5 h-5" style={{ color: CSS_COLORS.primary }} />,
-      minAmount: 100,
-      supportedCurrencies: ["NGN"],
     },
   ]
 
@@ -80,7 +54,7 @@ const AddFunds = () => {
     {
       id: "payment-methods",
       title: "What payment methods are available?",
-      content: "We support Korapay for instant card & bank payments, and OPay for direct bank transfers. With OPay, simply transfer to our account and submit your proof of payment via WhatsApp or email for quick processing.",
+      content: "We support Korapay for instant payments via cards, bank transfers, mobile money, and EFTs.",
     },
     {
       id: "deposit-time",
@@ -135,12 +109,6 @@ const AddFunds = () => {
       return
     }
 
-    // For OPay manual payment, show modal with account details
-    if (selectedMethod === "opay_manual") {
-      setShowOpayModal(true)
-      return
-    }
-
     setIsLoading(true)
 
     try {
@@ -173,23 +141,6 @@ const AddFunds = () => {
     }
   }
 
-  const handleProofSubmit = (proofMethod) => {
-    if (proofMethod === 'whatsapp') {
-      const waMessage = encodeURIComponent(
-        `Hi, I just made a bank transfer of ${formatCurrency(amount, selectedCurrency.code)} to your OPay account (${opayDetails.accountNumber}).\nMy account email: ${user?.email || ''}\nPlease verify and credit my account. Thank you!`
-      )
-      window.open(`https://wa.me/${opayDetails.whatsapp.replace(/[^0-9]/g, '')}?text=${waMessage}`, '_blank')
-    } else {
-      const emailSubject = encodeURIComponent(`Payment Proof - ${formatCurrency(amount, selectedCurrency.code)}`)
-      const emailBody = encodeURIComponent(
-        `Hello,\n\nI have made a bank transfer of ${formatCurrency(amount, selectedCurrency.code)} to your OPay account (${opayDetails.accountNumber}).\nMy account email: ${user?.email || ''}\n\nPlease find attached the proof of payment.\n\nThank you!`
-      )
-      window.open(`mailto:${opayDetails.email}?subject=${emailSubject}&body=${emailBody}`, '_blank')
-    }
-    setShowOpayModal(false)
-    setAmount('')
-  }
-
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
     return new Date(dateString).toLocaleDateString(undefined, options)
@@ -203,80 +154,8 @@ const AddFunds = () => {
     }).format(amount)
   }
 
-  // OPay Modal component
-  const OpayModal = () => {
-    if (!showOpayModal) return null
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} onClick={() => setShowOpayModal(false)}>
-        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-          {/* Header */}
-          <div className="flex items-center justify-between p-5 border-b border-gray-200">
-            <h3 className="text-lg font-bold text-gray-900">Bank Transfer Details</h3>
-            <button onClick={() => setShowOpayModal(false)} className="p-1 rounded-full hover:bg-gray-100">
-              <X className="w-5 h-5 text-gray-400" />
-            </button>
-          </div>
-
-          <div className="p-5 space-y-4">
-            {/* Amount */}
-            <div className="text-center p-3 rounded-lg bg-purple-50">
-              <p className="text-sm text-gray-500">Amount to Transfer</p>
-              <p className="text-2xl font-bold text-gray-900">{formatCurrency(amount, selectedCurrency.code)}</p>
-            </div>
-
-            {/* Account Details */}
-            <div className="space-y-2">
-              <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-500">Bank</span>
-                <span className="text-sm font-semibold text-gray-900">{opayDetails.bankName}</span>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-500">Account Number</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-gray-900 font-mono">{opayDetails.accountNumber}</span>
-                  <button onClick={() => copyToClipboard(opayDetails.accountNumber, 'account')} className="p-1 rounded hover:bg-gray-200">
-                    {copiedField === 'account' ? <CheckCircle2 className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-400" />}
-                  </button>
-                </div>
-              </div>
-              <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-500">Account Name</span>
-                <span className="text-sm font-semibold text-gray-900">{opayDetails.accountName}</span>
-              </div>
-            </div>
-
-            {/* Notice */}
-            <p className="text-sm text-amber-700 bg-amber-50 p-3 rounded-lg">⚠️ Transfer the exact amount. Your account will be credited after verification.</p>
-
-            {/* Submit Proof Buttons */}
-            <div className="space-y-2 pt-2">
-              <button
-                onClick={() => handleProofSubmit('whatsapp')}
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-lg font-medium text-white hover:opacity-90 transition-opacity"
-                style={{ backgroundColor: '#25D366' }}
-              >
-                <MessageCircle className="w-5 h-5" />
-                Send Proof via WhatsApp
-              </button>
-
-              <button
-                onClick={() => handleProofSubmit('email')}
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-lg font-medium text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors"
-              >
-                <Mail className="w-5 h-5" />
-                Send Proof via Email
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: "transparent" }}>
-      {/* OPay Transfer Modal */}
-      <OpayModal />
       {/* Mobile Layout */}
       <div className="lg:hidden">
         <div className="w-full p-4 space-y-6">

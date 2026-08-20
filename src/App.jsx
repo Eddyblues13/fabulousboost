@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/NavBar';
 import Footer from './components/Footer';
-import WhatsAppWidget from './components/WhatsAppWidget';
 import HomePage from './pages/home/HomePage';
 import SignUpPage from './pages/home/SignUpPage';
 import ServicesPage from './pages/home/ServicesPage';
@@ -58,7 +57,6 @@ const Layout = ({ children }) => {
       {showLayout && <Navbar />}
       {children}
       {showLayout && <Footer />}
-      {showLayout && <WhatsAppWidget />}
     </>
   );
 };

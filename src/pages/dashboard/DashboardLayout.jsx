@@ -6,7 +6,6 @@ import { getUserFromLocalStorage } from "../../utils/helpers";
 import { CSS_COLORS } from "../../components/constant/colors";
 import toast from "react-hot-toast";
 import { fetchCurrencies } from "../../services/services";
-import WhatsAppWidget from "../../components/WhatsAppWidget";
 
 // Currency utility functions
 const convertAmount = (amount, fromRate, toRate) => {
@@ -133,8 +132,6 @@ const DashboardLayout = () => {
           </div>
         </main>
       </div>
-
-      <WhatsAppWidget />
     </div>
   );
 };
